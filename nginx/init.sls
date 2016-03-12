@@ -1,8 +1,7 @@
 {% set vhosts = salt['pillar.get']('vhosts', {}) %}
 nginx:
   pkg.installed: []
-  service:
-    - running
+  service.running:
     - watch:
         - pkg: nginx
         - file: /etc/nginx/nginx.conf
@@ -52,9 +51,9 @@ git:
 {% endif %}
 {% endfor %}
 
-hosts:
+{% for vhost, info in vhosts.iteritems() %}
+{{ vhost }}_host:
   host.present:
     - ip: 127.0.0.1
-    {% for vhost, info in vhosts.iteritems() %}
     - name: {{ info.get('server_name') }}
-    {% endfor %}
+{% endfor %}
