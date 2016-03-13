@@ -24,20 +24,6 @@ nginx:
     - group: root
     - mode: 640
 
-{% for vhost, info in vhosts.iteritems() %}
-{% if info.get('tar') %}
-{{ vhost }}_tar:
-  archive.extracted:
-    - name: /var/www/
-    - source: {{ info.get('tar') }}
-    - tar_options: J
-    - archive_format: tar
-    - if_missing: {{ info.get('root') }}
-    - user: www-data
-    - group: www-data
-{% endif %}
-{% endfor %}
-
 git:
   pkg.installed: []
 
