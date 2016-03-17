@@ -28,10 +28,28 @@ server {
     server_name {{ info.get('server_name') }};
 
     root {{ info.get('root') }};
+    {% if info.get('index') %}
     index {{ info.get('index') }};
+    {% endif %}
+
+    {% for route, target in info.get('aliases', {}).iteritems() %}
+    location {{ route }} {
+        alias {{ target }};
+    }
+    {% endfor %}
 
     location / {
+        {% if info.get('proxy', None) %}
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        if (!-f $request_filename) {
+            proxy_pass http://127.0.0.1:{{ info.get('proxy') }};
+            break;
+        }
+        {% else %}
 	try_files $uri $uri/ =404;
+        {% endif %}
     }
 }
 

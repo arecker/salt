@@ -3,9 +3,9 @@
 # Don't edit by hand, you dillweed
 from .common import *
 
-SECRET_KEY = '{{ info.get('secret_key') }}'
+SECRET_KEY = '{{ secret_key }}'
 ALLOWED_HOSTS = [
-{% for host in info.get('allowed_hosts') %}
+{% for host in allowed_hosts %}
 '{{ host }}',
 {% endfor %}
 ]
@@ -30,16 +30,16 @@ AUTH_PASSWORD_VALIDATORS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '{{ info.get('db_name') }}',
-        'USER': '{{ info.get('db_user') }}',
-        'PASSWORD': '{{ info.get('db_pass') }}',
-        'HOST': '{{ info.get('db_host', '127.0.0.1') }}',
-        'PORT': '{{ info.get('db_port', '5432') }}',
+        'NAME': '{{ db_name }}',
+        'USER': '{{ db_user }}',
+        'PASSWORD': '{{ db_pass }}',
+        'HOST': '{{ db_host }}',
+        'PORT': '{{ db_port }}',
     }
 }
 
-STATIC_ROOT = '{{ info.get('static_root') }}'
-MEDIA_ROOT = '{{ info.get('media_root') }}'
+STATIC_ROOT = '{{ static_root }}'
+MEDIA_ROOT = '{{ media_root }}'
 
 LOGGING = {
     'version': 1,
@@ -57,7 +57,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': '{{ info.get('log_path') }}',
+            'filename': '{{ log_path }}',
             'formatter': 'verbose'
         },
     },
