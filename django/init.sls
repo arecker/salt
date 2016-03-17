@@ -1,18 +1,18 @@
 include:
   - .packages
-  
+{% set user = salt['pillar.get']('user') %}
 {% set djangos = salt['pillar.get']('djangos', {}) %}
 {% for django, info in djangos.iteritems() %}
 {% set root = info.get('root', '/usr/src/' + django) %}
-{% set env = info.get('virtualenv', '/home/alex/.virtualenvs/' + django) %}
+{% set env = info.get('virtualenv', '/home/' + user + '/.virtualenvs/' + django) %}
 {% set reqs = info.get('requirements', root + '/requirements/common.txt') %}
-{% if info.get('git') %}
+
 {{ info.get('git') }}:
   git.latest:
     - target: {{ info.get('root', '/usr/src/' + django) }}
+    - user: {{ user }}
   require:
     - pkg: git
-{% endif %}
 
 {{ django }}_requirements_repo:
   virtualenv.managed:
@@ -37,8 +37,8 @@ include:
     - managed
     - source: salt://django/templates/settings.py.jinja
     - template: jinja
-    - user: alex
-    - group: alex
+    - user: {{ user }}
+    - group: {{ user }}
     - mode: 755
     - context:
         project: {{ django }}
@@ -76,7 +76,7 @@ include:
     - mode: 640
     - context:
         description: {{ django }}
-        user: alex
+        user: {{ user }}
         working_dir: {{ root }}
         port: {{ info.get('port') }}
         gunicorn: {{ env }}/bin/gunicorn

@@ -1,4 +1,5 @@
 base:
   '*':
+    - auth
     - nginx
     - django
