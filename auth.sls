@@ -1,4 +1,5 @@
 {% set USER = pillar.get('user') %}
+{% set KEYS = pillar.get('keys') %}
 users:
   pkg.installed:
     - pkgs:
@@ -9,7 +10,12 @@ users:
         - sudo
   ssh_auth.present:
     - user: {{ USER }}
-    - source: salt://keys/hurricane-ron.pub
+    {% if KEYS %}
+    {% for key in KEYS %}
+    - names:
+      - {{ key }}
+    {% endfor %}
+    {% endif %}
 
 /etc/ssh/sshd_config:
   file.managed:
@@ -21,8 +27,10 @@ users:
 
 /etc/motd:
   file.managed:
-    - source: salt://configs/motd.jinja
-    - template: jinja
+    - text: "
+| This machine is managed by salt.
+| https://github.com/arecker/salt
+"
     - user: root
     - group: root
     - mode: 644

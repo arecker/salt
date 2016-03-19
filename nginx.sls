@@ -39,7 +39,19 @@ nginx:
 /var/www/html/index.html:
   file:
     - managed
-    - source: salt://default.html
+    - text: "
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>It's Working</title>
+  </head>
+  <body>
+    <h1>Besides this dog, nothing here yet.</h1>
+    <img alt='dog' height='300' src='http://i.imgur.com/ZAL7A4d.jpg'/>
+  </body>
+</html>
+"
     - user: www-data
     - group: www-data
     - mode: 775
