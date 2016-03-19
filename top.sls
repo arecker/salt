@@ -5,3 +5,4 @@ base:
     - host
     - nginx
     - git
+    - database
