@@ -1,5 +1,0 @@
-base:
-  '*':
-    - auth
-    - nginx
-    - django
