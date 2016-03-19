@@ -1,4 +1,5 @@
 {% set STATICS = salt['pillar.get']('statics', {}) %}
+{% set DJANGOS = salt['pillar.get']('djangos', {}) %}
 
 /var/www:
   file.directory:
@@ -35,6 +36,7 @@ nginx:
     - mode: 640
     - context:
         STATICS: {{ STATICS }}
+        DJANGOS: {{ DJANGOS }}
 
 /var/www/html/index.html:
   file:
