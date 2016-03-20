@@ -4,7 +4,8 @@
 {% set python = salt['helpers.get_python_path'](USER, project, info) %}
 {% set settings = salt['helpers.get_settings_path'](project, info) %}
 {% set settings_mod = salt['helpers.get_settings_module'](project, info) %}
-{{ info.get('root') }}:
+{% for path in ['root', 'static_root', 'media_root'] %}
+{{ info.get(path) }}:
   file.directory:
     - user: {{ USER }}
     - group: www-data
@@ -12,24 +13,7 @@
     - recurse:
       - user
       - group
-
-{{ info.get('static_root') }}:
-  file.directory:
-    - user: {{ USER }}
-    - group: www-data
-    - mode: 775
-    - recurse:
-      - user
-      - group
-
-{{ info.get('media_root') }}:
-  file.directory:
-    - user: {{ USER }}
-    - group: www-data
-    - mode: 775
-    - recurse:
-      - user
-      - group
+{% endfor %}
 
 django-{{ project }}-env-var:
   environ.setenv:
