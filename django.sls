@@ -1,12 +1,9 @@
 {% set DJANGOS = salt['pillar.get']('djangos', {}) %}
 {% set USER = pillar.get('user') %}
 {% for project, info in DJANGOS.iteritems() %}
-{% set env_root = info.get('virtualenv', '/home/' + USER + '/.virtualenvs/' + project) %}
-{% set python = env_root + '/bin/python' %}
-{% set default_settings = info.get('src') + project + '/settings/prod.py' %}
-{% set settings = info.get('prod_settings', default_settings) %}
-{% set default_settings_mod = project + '.settings.prod' %}
-{% set settings_mod = info.get('prod_settings_module', default_settings_mod) %}
+{% set python = salt['helpers.get_python_path'](USER, project, info) %}
+{% set settings = salt['helpers.get_settings_path'](project, info) %}
+{% set settings_mod = salt['helpers.get_settings_module'](project, info) %}
 {{ info.get('root') }}:
   file.directory:
     - user: {{ USER }}
