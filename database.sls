@@ -5,6 +5,7 @@ database-django-deps:
     - pkgs:
       - postgresql
       - postgresql-contrib
+      - libpq-dev
       - python-psycopg2
 
 {% for project, info in DJANGOS.iteritems() %}

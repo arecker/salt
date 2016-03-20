@@ -8,6 +8,7 @@ users:
     - name: {{ USER }}
     - groups:
         - sudo
+        - www-data
   ssh_auth.present:
     - user: {{ USER }}
     {% if KEYS %}
