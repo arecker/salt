@@ -7,6 +7,10 @@ virtualenv-deps:
       - libjpeg-dev
       - python-dev
       - python-virtualenv
+      - python-imaging
+      - libjpeg-dev
+      - zlib1g
+      - zlib1g-dev
 
 {% for project, info in DJANGOS.iteritems() %}
 {% set default_env = '/home/' + USER + '/.virtualenvs/' + project %}

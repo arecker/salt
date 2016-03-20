@@ -6,6 +6,7 @@ base:
     - memcached
     - nginx
     - git
-    - virtualenv
     - database
+    - virtualenv
     - django
+    - systemd
