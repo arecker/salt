@@ -13,8 +13,7 @@ virtualenv-deps:
       - zlib1g-dev
 
 {% for project, info in DJANGOS.iteritems() %}
-{% set default_env = '/home/' + USER + '/.virtualenvs/' + project %}
-{% set virtualenv_root = info.get('virtualenv', default_env) %}
+{% set virtualenv_root = salt['helpers.get_virtualenv_path'](USER, project, info) %}
 virtualenv-{{ project }}-repo:
   virtualenv.managed:
     - name: {{ virtualenv_root }}
