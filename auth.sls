@@ -27,8 +27,11 @@ users:
     - mode: 644
 
 /etc/motd:
-  file.append:
-    - text: "\n| This machine is managed by salt.\n| https://github.com/arecker/salt"
+  file.managed:
+    - source: salt://configs/motd
+    - user: root
+    - group: root
+    - mode: 644
 
 openssh-server:
   pkg.installed: []
