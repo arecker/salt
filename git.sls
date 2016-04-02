@@ -7,6 +7,8 @@ git:
 GIT_SSL_NO_VERIFY=1:
   environ.setenv:
     - value: "1"
+    - require:
+        - pkg: git
 
 {% if STATICS %}
 {% for site, info in STATICS.iteritems() %}
@@ -15,6 +17,8 @@ GIT_SSL_NO_VERIFY=1:
   git.latest:
     - user: www-data
     - target: {{ info.get('root') }}
+    - require:
+        - pkg: git
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -26,6 +30,8 @@ GIT_SSL_NO_VERIFY=1:
   git.latest:
     - user: {{ USER }}
     - target: {{ info.get('src') }}
+    - require:
+        - pkg: git
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -34,3 +40,5 @@ letsencrypt-client-git:
   git.latest:
     - name: https://github.com/letsencrypt/letsencrypt
     - target: /opt/letsencrypt
+    - require:
+        - pkg: git

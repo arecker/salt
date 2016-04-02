@@ -2,12 +2,13 @@ base:
   '*':
     - auth
     - firewall
-    # - host
-    # - memcached
-    # - git
+    - git
+    - host
+    - memcached
+    - git
+    - database
+    - virtualenv
+    - django
+    - systemd
     # - letsencrypt
     # - nginx
-    # - database
-    # - virtualenv
-    # - django
-    # - systemd

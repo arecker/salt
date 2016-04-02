@@ -45,6 +45,8 @@ django-{{ project }}-migrate:
     - file: {{ settings }}
     - file: {{ info.get('log') }}
     - id: django-{{ project }}-env-var
+    - sls: virtualenv
+    - sls: database
 
 django-{{ project }}-collectstatic:
   cmd.run:
@@ -57,4 +59,5 @@ django-{{ project }}-collectstatic:
     - directory: {{ info.get('media_root') }}
     - directory: {{ info.get('static_root') }}
     - id: django-{{ project }}-env-var
+    - sls: virtualenv
 {% endfor %}
