@@ -22,9 +22,22 @@ ufw-allow-ssh:
 ufw-allow-web-plain:
   cmd.run:
     - name: ufw allow 80
+    - require:
+        - pkg: ufw
+
+ufw-allow-web-ssl:
+  cmd.run:
+    - name: ufw allow 443
+    - require:
+        - pkg: ufw
 
 ufw-enable:
   cmd.run:
     - name: ufw enable
     - require:
       - pkg: ufw
+      - cmd: ufw-allow-web-ssl
+      - cmd: ufw-allow-web-plain
+      - cmd: ufw-allow-ssh
+      - cmd: ufw-default-allow-outgoing
+      - cmd: ufw-default-deny-incoming

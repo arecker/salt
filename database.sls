@@ -16,5 +16,7 @@ database-django-{{ project }}:
   postgres_database.present:
     - name: {{ info.get('db_name') }}
     - owner: {{ info.get('db_user') }}
+    - require:
+        - postgres_user: database-django-{{ project }}
 {% endfor %}
 {% endif %}
