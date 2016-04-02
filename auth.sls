@@ -6,14 +6,16 @@ users:
       - sudo
   user.present:
     - name: {{ USER }}
+    - shell: /bin/bash
+    - empty_password: True
     - groups:
         - sudo
         - www-data
   ssh_auth.present:
     - user: {{ USER }}
     {% if KEYS %}
-    {% for key in KEYS %}
     - names:
+    {% for key in KEYS %}
       - {{ key }}
     {% endfor %}
     {% endif %}
