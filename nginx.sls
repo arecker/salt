@@ -1,5 +1,6 @@
 {% set STATICS = salt['pillar.get']('statics', {}) %}
 {% set DJANGOS = salt['pillar.get']('djangos', {}) %}
+{% set email = salt['pillar.get']('email') %}
 
 /var/www:
   file.directory:

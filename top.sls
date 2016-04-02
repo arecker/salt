@@ -10,5 +10,4 @@ base:
     - virtualenv
     - django
     - systemd
-    # - letsencrypt
-    # - nginx
+    - nginx
