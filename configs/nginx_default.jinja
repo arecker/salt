@@ -16,12 +16,17 @@ server {
 #
 server {
     listen 80;
-    listen [::]:80;
+    listen 443 ssl;
     server_name {{ info.get('server_name') }};
     root {{ info.get('root') }};
     index index.html;
+    ssl_certificate /etc/letsencrypt/live/{{ info.get('server_name') }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ info.get('server_name') }}/privkey.pem;
     location / {
 	try_files $uri $uri/ =404;
+    }
+    location ~ /.well-known {
+        allow all;
     }
 }
 {% endfor %}
@@ -36,6 +41,9 @@ server {
     listen [::]:80;
     server_name {{ info.get('server_name') }};
     root {{ info.get('root') }};
+    location /.well-known {
+        alias {{ info.get('root') }}/.well-known;
+    }
     location {{ static_url }} {
         alias {{ info.get('static_root') }};
     }

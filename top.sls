@@ -4,8 +4,9 @@ base:
     - firewall
     - host
     - memcached
-    - nginx
     - git
+    - letsencrypt
+    - nginx
     - database
     - virtualenv
     - django
