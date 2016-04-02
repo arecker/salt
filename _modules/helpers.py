@@ -42,8 +42,3 @@ def get_service(project, info, chop=False):
 def get_service_path(project, info):
     service = get_service(project, info)
     return os.path.join('/etc/systemd/system/', service)
-
-
-def cert_exists(info):
-    target = os.path.join('/etc/letsencrypt', info.get('server_name'))
-    return os.path.exists(target)

@@ -1,14 +1,7 @@
 {% set STATICS = salt['pillar.get']('statics', {}) %}
 {% set DJANGOS = salt['pillar.get']('djangos', {}) %}
 {% set email = salt['pillar.get']('email') %}
-
-/var/www:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - recurse:
-      - user
-      - group
+{% set lets_encrypt = '/opt/letsencrypt/letsencrypt-auto' %}
 
 nginx:
   pkg.installed: []
@@ -38,6 +31,11 @@ nginx:
     - context:
         STATICS: {{ STATICS }}
         DJANGOS: {{ DJANGOS }}
+    - watch:
+        - file: /var/www/html/index.html
+        {% for site, info in STATICS.iteritems() %}
+        - cmd: letsencrypt-{{ site }}-cert
+        {% endfor %}
 
 /var/www/html/index.html:
   file:
@@ -46,3 +44,24 @@ nginx:
     - user: www-data
     - group: www-data
     - mode: 775
+
+{% for site, info in STATICS.iteritems() %}
+letsencrypt-{{ site }}-cert:
+  cmd.run:
+    - name: "{{ lets_encrypt }} certonly \
+              --agree-tos \
+              --server https://acme-v01.api.letsencrypt.org/directory \
+              --email {{ email }}
+              -a webroot \
+              --webroot-path={{ info.get('root') }} \
+              -d {{ info.get('server_name') }}"
+    - unless: test -d /etc/letsencrypt/live/{{ info.get('server_name') }}
+    - onlyif: test -f {{ lets_encrypt }}
+{% endfor %}
+
+letsencrypt-renew-cron:
+  cron.present:
+    - name: {{ lets_encrypt }} renew && systemctl reload nginx
+    - user: root
+    - hour: 1
+    - onlyif: test -f {{ lets_encrypt }}

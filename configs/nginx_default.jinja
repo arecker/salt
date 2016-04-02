@@ -15,10 +15,16 @@ server {
 # {{ site }} server configuration
 #
 server {
-    listen 80;
     server_name {{ info.get('server_name') }};
     root {{ info.get('root') }};
     index index.html;
+    {% if salt['file.directory_exists' ]('/etc/letsencrypt/live/' + info.get('server_name')) %}
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ info.get('server_name') }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ info.get('server_name') }}/privkey.pem;
+    {% else %}
+    listen 80;
+    {% endif %}
     location / {
 	try_files $uri $uri/ =404;
     }
@@ -26,6 +32,14 @@ server {
         allow all;
     }
 }
+
+{% if salt['file.directory_exists' ]('/etc/letsencrypt/live/' + info.get('server_name')) %}
+server {
+    listen 80;
+    server_name {{ info.get('server_name') }};
+    return 301 https://$host$request_uri;
+}
+{% endif %}
 {% endfor %}
 
 {% for project, info in DJANGOS.iteritems() %}
