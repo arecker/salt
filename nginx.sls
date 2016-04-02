@@ -31,11 +31,6 @@ nginx:
     - context:
         STATICS: {{ STATICS }}
         DJANGOS: {{ DJANGOS }}
-    - watch:
-        - file: /var/www/html/index.html
-        {% for site, info in STATICS.iteritems() %}
-        - cmd: letsencrypt-{{ site }}-cert
-        {% endfor %}
 
 /var/www/html/index.html:
   file:
@@ -61,7 +56,7 @@ letsencrypt-{{ site }}-cert:
 
 letsencrypt-renew-cron:
   cron.present:
-    - name: {{ lets_encrypt }} renew && systemctl reload nginx
+    - name: {{ lets_encrypt }} renew && nginx -s reload
     - user: root
     - hour: 1
     - onlyif: test -f {{ lets_encrypt }}
