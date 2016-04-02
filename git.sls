@@ -29,3 +29,8 @@ GIT_SSL_NO_VERIFY=1:
 {% endif %}
 {% endfor %}
 {% endif %}
+
+letsencrypt-client-git:
+  git.latest:
+    - name: https://github.com/letsencrypt/letsencrypt
+    - target: /opt/letsencrypt
