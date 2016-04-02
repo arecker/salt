@@ -5,7 +5,6 @@ base:
     - git
     - host
     - memcached
-    - git
     - database
     - virtualenv
     - django

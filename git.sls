@@ -10,6 +10,12 @@ GIT_SSL_NO_VERIFY=1:
     - require:
         - pkg: git
 
+/var/www:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - mode: 755
+
 {% if STATICS %}
 {% for site, info in STATICS.iteritems() %}
 {% if info.get('git') %}
