@@ -4,6 +4,8 @@ SECRET_KEY = '{{ INFO.get('secret_key') }}'
 DEBUG = False
 ALLOWED_HOSTS = ['{{ INFO.get('server_name') }}']
 
+INSTALLED_APPS += ('mailer', )
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -75,3 +77,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = "mailer.backend.DbBackend"
+EMAIL_HOST = '{{ INFO.get('email_host') }}'
+EMAIL_HOST_USER = '{{ INFO.get('email_user') }}'
+EMAIL_HOST_PASSWORD = '{{ INFO.get('email_pass') }}'
+EMAIL_PORT = '{{ INFO.get('email_port') }}'
+EMAIL_USE_TLS = True

@@ -60,4 +60,22 @@ django-{{ project }}-collectstatic:
     - directory: {{ info.get('static_root') }}
     - id: django-{{ project }}-env-var
     - sls: virtualenv
+
+django-{{ project }}-mail-send:
+  cron.present:
+    - user: {{ USER }}
+    - minute: '*/1'
+    - name: cd {{ info.get('src') }} && {{ python }} manage.py send_mail >> {{ info.get('log') }} 2>&1
+
+django-{{ project }}-mail-retry:
+  cron.presnt:
+    - user: {{ USER }}
+    - minute: '*/20'
+    - name: cd {{ info.get('src') }} && {{ python }} manage.py retry_deferred >> {{ info.get('log') }} 2>&1
+
+django-{{ project }}-mail-purge:
+  cron.present:
+    - user: {{ USER }}
+    - minute: '*/5'
+    - name: cd {{ info.get('src') }} && {{ python }} manage.py purge_mail_log 7 >> {{ info.get('log') }} 2>&1
 {% endfor %}
