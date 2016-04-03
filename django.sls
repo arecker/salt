@@ -61,21 +61,33 @@ django-{{ project }}-collectstatic:
     - id: django-{{ project }}-env-var
     - sls: virtualenv
 
+/home/{{ USER }}/bin/{{ project }}_mail.sh:
+  file.managed:
+    - user: {{ USER }}
+    - mode: 755
+    - template: jinja
+    - source: salt://configs/mailer.sh
+    - makedirs: True
+    - context:
+        PYTHON: {{ python }}
+        SRC: {{ info.get('src') }}
+        SETTINGS: {{ settings_mod }}
+        LOG: {{ info.get('log') }}
+        PROJECT: {{ project }}
+
 django-{{ project }}-mail-send:
   cron.present:
     - user: {{ USER }}
     - minute: '*/1'
-    - name: cd {{ info.get('src') }} && {{ python }} manage.py send_mail >> {{ info.get('log') }} 2>&1
+    - name: /home/{{ USER }}/bin/{{ project }}_mail.sh send_mail
+    - require:
+        - file: /home/{{ USER }}/bin/{{ project }}_mail.sh
 
 django-{{ project }}-mail-retry:
-  cron.presnt:
-    - user: {{ USER }}
-    - minute: '*/20'
-    - name: cd {{ info.get('src') }} && {{ python }} manage.py retry_deferred >> {{ info.get('log') }} 2>&1
-
-django-{{ project }}-mail-purge:
   cron.present:
     - user: {{ USER }}
-    - minute: '*/5'
-    - name: cd {{ info.get('src') }} && {{ python }} manage.py purge_mail_log 7 >> {{ info.get('log') }} 2>&1
+    - minute: '*/20'
+    - name: /home/{{ USER }}/bin/{{ project }}_mail.sh retry_deferred
+    - require:
+        - file: /home/{{ USER }}/bin/{{ project }}_mail.sh
 {% endfor %}

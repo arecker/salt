@@ -48,9 +48,14 @@ server {
 # {{ project }} server configuration
 #
 server {
-    listen 80;
-    listen [::]:80;
     server_name {{ info.get('server_name') }};
+    {% if salt['file.directory_exists' ]('/etc/letsencrypt/live/' + info.get('server_name')) %}
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ info.get('server_name') }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ info.get('server_name') }}/privkey.pem;
+    {% else %}
+    listen 80;
+    {% endif %}
     root {{ info.get('root') }};
     location /.well-known {
         alias {{ info.get('root') }}/.well-known;
@@ -71,4 +76,12 @@ server {
         }
     }
 }
+
+{% if salt['file.directory_exists' ]('/etc/letsencrypt/live/' + info.get('server_name')) %}
+server {
+    listen 80;
+    server_name {{ info.get('server_name') }};
+    return 301 https://$host$request_uri;
+}
+{% endif %}
 {% endfor %}

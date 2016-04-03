@@ -10,5 +10,5 @@ base:
     - django
     - systemd
     - nginx
-    - letsencrypt
-    - nginx  # needs to run again to pick up ssl stuff
+    # - letsencrypt
+    # - nginx  # needs to run again to pick up ssl stuff
