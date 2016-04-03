@@ -4,6 +4,7 @@ users:
   pkg.installed:
     - pkgs:
       - sudo
+      - bash
   user.present:
     - name: {{ USER }}
     - shell: /bin/bash
