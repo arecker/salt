@@ -11,6 +11,10 @@ users-{{ user }}:
     - password: {{ info.get('password') }}
     - fullname: {{ info.get('name', '') }}
     - shell: /bin/bash
+    {% if info.get('sudo', False) %}
+    - groups:
+        - sudo
+    {% endif %}
 {% endfor %}
 
 
