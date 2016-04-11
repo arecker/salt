@@ -16,6 +16,13 @@ web-django-packages:
       - libpq-dev
       - python-psycopg2
 
+web-django-postgres-service:
+  service.running:
+    - name: postgresql
+    - enable: True
+    - require:
+        - pkg: web-django-packages
+
 {% for project, info in DJANGOS.iteritems() %}
 {% set python = salt['utils.join'](info.get('venv'), 'bin/python') %}
 {% set settings = salt['utils.join'](info.get('src'), project, 'settings/prod.py') %}
@@ -52,6 +59,8 @@ web-django-{{ project }}-database-user:
   postgres_user.present:
     - name: {{ info.get('db_user') }}
     - password: {{ info.get('db_pass') }}
+    - require:
+        - service: web-django-postgres-service
 
 web-django-{{ project }}-database:
   postgres_database.present:
@@ -59,6 +68,7 @@ web-django-{{ project }}-database:
     - owner: {{ info.get('db_user') }}
     - require:
         - postgres_user: web-django-{{ project }}-database-user
+        - service: web-django-postgres-service
 
 web-django-{{ project }}-settings:
   file.managed:
@@ -82,4 +92,5 @@ web-django-{{ project }}-migrate:
         - virtualenv: web-django-{{ project }}-virtualenv-repo
         - virtualenv: web-django-{{ project }}-virtualenv-prod
         - pkg: web-django-packages
+        - require: web-django-postgres-service
 {% endfor %}

@@ -25,6 +25,7 @@ djangos:
     static_root: /var/www/blog/static
     venv: /home/alex/.virtualenvs/blog
     requirements: /home/alex/git/blog/requirements/common.txt
-    db_user: blogdb
+    db_user: blog
     db_name: blogdb
     db_pass: docker
+    log: /home/alex/logs/blog.log
