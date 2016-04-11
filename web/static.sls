@@ -15,6 +15,11 @@ web-static-{{ site }}-git:
     - require:
         - pkg: web-static-packages
 {% endif %}
+
+web-static-{{ site }}-hostname:
+  host.present:
+    - ip: 127.0.0.1
+    - name: {{ info.get('host') }}
 {% endfor %}
 
 web-static-hosts:
