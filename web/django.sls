@@ -70,6 +70,14 @@ web-django-{{ project }}-database:
         - postgres_user: web-django-{{ project }}-database-user
         - service: web-django-postgres-service
 
+web-django-{{ project }}-log:
+  file.managed:
+    - name: {{ info.get('log') }}
+    - user: {{ info.get('user') }}
+    - group: {{ info.get('user') }}
+    - makedirs: True
+    - mode: 770
+
 web-django-{{ project }}-settings:
   file.managed:
     - name: {{ settings }}
@@ -92,5 +100,6 @@ web-django-{{ project }}-migrate:
         - virtualenv: web-django-{{ project }}-virtualenv-repo
         - virtualenv: web-django-{{ project }}-virtualenv-prod
         - pkg: web-django-packages
-        - require: web-django-postgres-service
+        - service: web-django-postgres-service
+        - file: web-django-{{ project }}-log
 {% endfor %}
