@@ -4,6 +4,8 @@ python:
 
 before_install:
   - sudo apt-get update
+  - sudo service postgresql stop
+  - sudo apt-get --purge remove postgresql\*
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
