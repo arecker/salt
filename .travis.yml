@@ -16,7 +16,10 @@ install:
 
 script:
   - sudo salt-call --local --retcode-passthrough test.ping
-  - sudo salt-call --local --retcode-passthrough state.highstate
+  - sudo salt-call --local --retcode-passthrough state.sls system.locale
+  - sudo salt-call --local --retcode-passthrough state.sls system.services
+  - sudo salt-call --local --retcode-passthrough state.sls auth
+  - sudo salt-call --local --retcode-passthrough state.sls web
 
 notifications:
   email: false
