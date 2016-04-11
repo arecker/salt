@@ -4,7 +4,7 @@ python:
 
 before_install:
   - sudo apt-get update
-  - curl -L http://bootstrap.saltstack.org | sudo sh -s -- git develop
+  - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
   - sudo mkdir -p /srv/salt/
