@@ -87,6 +87,8 @@ web-django-{{ project }}-settings:
     - context:
         project: {{ project }}
         info: {{ info }}
+    - require:
+        - git: web-django-{{ project }}-git
 
 web-django-{{ project }}-migrate:
   cmd.run:
@@ -102,4 +104,5 @@ web-django-{{ project }}-migrate:
         - pkg: web-django-packages
         - service: web-django-postgres-service
         - file: web-django-{{ project }}-log
+        - git: web-django-{{ project }}-git
 {% endfor %}
