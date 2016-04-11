@@ -12,3 +12,11 @@ statics:
     git: https://github.com/arecker/bobrosssearch.com.git
     root: /var/www/bob
     host: bobrosssearch.com
+
+djangos:
+  blog:
+    user: alex
+    git: https://github.com/arecker/blog.git
+    src: /home/alex/git/blog
+    venv: /home/alex/.virtualenvs/blog
+    requirements: /home/alex/git/blog/requirements/common.txt

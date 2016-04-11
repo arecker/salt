@@ -30,4 +30,6 @@ RUN echo 'base:\n\
 >> /srv/pillar/top.sls
 COPY ./docker-pillar.sls /srv/pillar/
 
+RUN salt-call --local saltutil.sync_all
+
 EXPOSE 22 80
