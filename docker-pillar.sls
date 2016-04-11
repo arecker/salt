@@ -16,7 +16,15 @@ statics:
 djangos:
   blog:
     user: alex
+    host: backends.alexrecker.com
+    secret: lol-so-secret
     git: https://github.com/arecker/blog.git
     src: /home/alex/git/blog
+    root: /var/www/blog
+    media_root: /var/www/blog/media
+    static_root: /var/www/blog/static
     venv: /home/alex/.virtualenvs/blog
     requirements: /home/alex/git/blog/requirements/common.txt
+    db_user: blogdb
+    db_name: blogdb
+    db_pass: docker

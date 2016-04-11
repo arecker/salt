@@ -11,9 +11,14 @@ web-django-packages:
       - libjpeg-dev
       - zlib1g
       - zlib1g-dev
+      - postgresql
+      - postgresql-contrib
+      - libpq-dev
+      - python-psycopg2
 
 {% for project, info in DJANGOS.iteritems() %}
 {% set python = salt['utils.join'](info.get('venv'), 'bin/python') %}
+{% set settings = salt['utils.join'](info.get('src'), project, 'settings/prod.py') %}
 web-django-{{ project }}-git:
   git.latest:
     - name: {{ info.get('git') }}
@@ -41,5 +46,40 @@ web-django-{{ project }}-virtualenv-prod:
     - requirements: salt://web/files/requirements.txt
     - require:
         - virtualenv: web-django-{{ project }}-virtualenv-repo
+        - pkg: web-django-packages
+
+web-django-{{ project }}-database-user:
+  postgres_user.present:
+    - name: {{ info.get('db_user') }}
+    - password: {{ info.get('db_pass') }}
+
+web-django-{{ project }}-database:
+  postgres_database.present:
+    - name: {{ info.get('db_name') }}
+    - owner: {{ info.get('db_user') }}
+    - require:
+        - postgres_user: web-django-{{ project }}-database-user
+
+web-django-{{ project }}-settings:
+  file.managed:
+    - name: {{ settings }}
+    - source: salt://web/files/settings.py
+    - template: jinja
+    - user: {{ info.get('user') }}
+    - context:
+        project: {{ project }}
+        info: {{ info }}
+
+web-django-{{ project }}-migrate:
+  cmd.run:
+    - name: {{ python }} manage.py migrate
+    - cwd: {{ info.get('src') }}
+    - env:
+        - DJANGO_SETTINGS_MODULE: {{ project }}.settings.prod
+    - require:
+        - postgres_user: web-django-{{ project }}-database-user
+        - postgres_database: web-django-{{ project }}-database
+        - virtualenv: web-django-{{ project }}-virtualenv-repo
+        - virtualenv: web-django-{{ project }}-virtualenv-prod
         - pkg: web-django-packages
 {% endfor %}
