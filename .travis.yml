@@ -16,3 +16,6 @@ install:
 
 script:
   - sudo salt-call --local --retcode-passthrough test.ping
+
+notifications:
+  email: false
