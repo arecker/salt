@@ -12,6 +12,7 @@ install:
   - sudo cp -r . /srv/salt/
   - sudo cp ./travis/* /srv/pillar
   - sudo service salt-minion restart
+  - sudo salt-call --local saltutil.sync_all
   - sudo salt-call grains.items --local
 
 script:
