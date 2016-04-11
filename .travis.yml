@@ -16,6 +16,7 @@ install:
 
 script:
   - sudo salt-call --local --retcode-passthrough test.ping
+  - sudo salt-call --local --retcode-passthrough state.highstate
 
 notifications:
   email: false
