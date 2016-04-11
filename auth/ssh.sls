@@ -25,11 +25,7 @@ ssh-motd:
 
 ssh-service:
   service.running:
-    {% if grains['os'] == 'Ubuntu' %}
     - name: ssh
-    {% else %}
-    - name: sshd
-    {% endif %}
     - enable: true
     - watch:
         - pkg: ssh-packages

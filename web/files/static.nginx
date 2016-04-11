@@ -1,0 +1,16 @@
+{% for site, info in statics.iteritems() %}
+# {{ site }} server configuration
+#
+server {
+    server_name {{ info.get('host') }};
+    root {{ info.get('root') }};
+    index index.html;
+    listen 80;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    location ~ /.well-known {
+        allow all;
+    }
+}
+{% endfor %}

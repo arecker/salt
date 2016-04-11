@@ -2,3 +2,4 @@ base:
   '*':
     - system
     - auth
+    - web

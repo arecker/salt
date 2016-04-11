@@ -30,4 +30,4 @@ RUN echo 'base:\n\
 >> /srv/pillar/top.sls
 COPY ./docker-pillar.sls /srv/pillar/
 
-EXPOSE 22
+EXPOSE 22 80

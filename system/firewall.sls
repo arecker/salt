@@ -33,6 +33,13 @@ firewall-https:
     - require:
         - pkg: firewall-packages
 
+firewall-disable-ipv6:
+  cmd.run:
+    - name: sed -i 's/IPV6=yes/IPV6=no/g' /etc/default/ufw
+    - require:
+        - pkg: firewall-packages
+    - onlyif: test -f /etc/default/ufw
+
 firewall-enable:
   cmd.run:
     - name: ufw enable --force
