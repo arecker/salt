@@ -7,14 +7,12 @@ web-static-packages:
   pkg.installed:
     - name: git
 
-{% if git %}
 web-static-{{ site }}-git:
   git.latest:
     - name: {{ git }}
     - target: {{ root }}
     - require:
         - pkg: web-static-packages
-{% endif %}
 
 web-static-{{ site }}-hostname:
   host.present:
@@ -32,5 +30,9 @@ web-static-hosts:
     - mode: 640
     - require:
         - pkg: web-packages
+        {% for site, info in STATICS.iteritems() %}
+        - host: web-static-{{ site }}-hostname
+        - git: web-static-{{ site }}-git
+        {% endfor %}
     - context:
         statics: {{ STATICS }}
