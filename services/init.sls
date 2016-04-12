@@ -28,9 +28,9 @@ docker-service:
         - pip: docker-python-deps
         - cmd: docker-install
 
-ubuntu:
+docker-test-image:
   docker.pulled:
-    - tag: latest
+    - name: ubuntu:trusty
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
