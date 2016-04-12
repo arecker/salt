@@ -47,4 +47,3 @@ web-nginx-service:
         - file: web-nginx-default-page
         - file: web-nginx-default-host
         - sls: web.static
-        - sls: web.django
