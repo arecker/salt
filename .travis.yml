@@ -6,6 +6,8 @@ before_install:
   - sudo apt-get update
   - sudo service postgresql stop
   - sudo apt-get --purge remove postgresql\*
+  - sudo apt-get install python-pip
+  - sudo pip install docker-py
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
