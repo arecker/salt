@@ -4,7 +4,8 @@ docker-deps:
 
 docker-python-deps:
   pip.installed:
-    - name: docker-py==0.6.0
+    - name: docker-py
+    - reload_modules: True
     - require:
         - pkg: docker-deps
 
