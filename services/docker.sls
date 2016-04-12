@@ -30,3 +30,6 @@ ubuntu:
     - tag: latest
     - require:
         - cmd: docker-install
+        - pip: docker-python-deps
+        - pkg: docker-deps
+        - service: docker-service
