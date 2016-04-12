@@ -36,7 +36,6 @@ web-nginx-default-host:
 
 include:
   - web.static
-  - web.django
 
 web-nginx-service:
   service.running:
