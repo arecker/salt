@@ -19,7 +19,6 @@ install:
 
 script:
   - sudo salt-call --local --retcode-passthrough state.sls system.locale
-  - sudo salt-call --local --retcode-passthrough state.sls system.services
   - sudo salt-call --local --retcode-passthrough state.sls auth
   - sudo salt-call --local --retcode-passthrough state.sls web
 
