@@ -1,2 +1,2 @@
 include:
-  - postgresql
+  - services.postgresql
