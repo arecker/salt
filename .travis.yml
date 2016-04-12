@@ -11,10 +11,8 @@ before_install:
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
-  - sudo mkdir -p /srv/salt/
-  - sudo mkdir -p /srv/pillar/
   - sudo cp -r . /srv/salt/
-  - sudo cp ./travis/* /srv/pillar
+  - sudo cp ./testpillars/travis /srv/pillar
   - sudo service salt-minion restart
   - sudo salt-call --local saltutil.sync_all
   - sudo salt-call grains.items --local
