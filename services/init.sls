@@ -30,7 +30,7 @@ docker-service:
 
 docker-test-image:
   docker.pulled:
-    - name: ubuntu
+    - name: hello-world
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
