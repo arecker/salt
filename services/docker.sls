@@ -21,11 +21,11 @@ docker-service:
     - name: docker
     - enable: True
     - require:
-        - pkg: docker-python-deps
+        - pip: docker-python-deps
         - cmd: docker-install
 
 ubuntu:
-  docker.pulled:
+  dockerio.pulled:
     - tag: latest
     - require:
         - cmd: docker-install
