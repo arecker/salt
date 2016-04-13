@@ -42,6 +42,7 @@ docker-{{ project }}-image:
     - name: {{ project }}
     - image: {{ info.get('image') }}
     - port_bindings: {{ info.get('port') }}:8000
+    - volumes: {{ info.get('volumes', '') }}
     - environment:
         - HOST: {{ info.get('host') }}
         - SECRET_KEY: {{ info.get('secret') }}
