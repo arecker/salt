@@ -1,13 +1,16 @@
 postgresql-packages:
   pkg.installed:
     - pkgs:
-        - postgresql
+        - postgresql-9.4
 
 postgresql-config:
   file.replace:
-    - name: /var/lib/pgsql/data/postgresql.conf
+    - name: /etc/postgresql/9.4/main/postgresql.conf
     - pattern: "listen_addresses='localhost'"
     - repl: "listen_addresses='localhost 172.17.0.1/16'"
+  file.append:
+    - name: /etc/postgresql/9.4/main/pg_hba.conf
+    - text: host all all 172.17.0.1/16 trust
 
 postgresql-service:
   service.running:
