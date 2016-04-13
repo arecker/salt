@@ -42,6 +42,12 @@ docker-{{ project }}-image:
     - name: {{ project }}
     - image: {{ info.get('image') }}
     - port_bindings: {{ info.get('port') }}:8000
+    - environment:
+        - HOST: {{ info.get('host') }}
+        - SECRET_KEY: {{ info.get('secret') }}
+        - DB_NAME: {{ info.get('db_name') }}
+        - DB_USER: {{ info.get('db_user') }}
+        - DB_PASS: {{ info.get('db_pass') }}
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
