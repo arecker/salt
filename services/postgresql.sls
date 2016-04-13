@@ -7,7 +7,7 @@ postgresql-config:
   file.replace:
     - name: /var/lib/pgsql/data/postgresql.conf
     - pattern: "listen_addresses='localhost'"
-    - replace: "listen_addresses='localhost 172.17.0.1/16'"
+    - repl: "listen_addresses='localhost 172.17.0.1/16'"
 
 postgresql-service:
   service.running:
