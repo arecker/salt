@@ -5,7 +5,7 @@ postgresql-packages:
 
 postgresql-config-tcp:
   file.replace:
-    - name: {{ salt['utils.find']('postgresql.conf') }}
+    - name: {{ salt['utils.find_file']('postgresql.conf', directory='/etc/postgresql') }}
     - pattern: "listen_addresses='localhost'"
     - repl: "listen_addresses='localhost 172.17.0.1/16'"
     - require:
@@ -13,7 +13,7 @@ postgresql-config-tcp:
 
 postgresql-config-auth:
   file.append:
-    - name: {{ salt['utils.find']('pg_hba.conf') }}
+    - name: {{ salt['utils.find']('ph_hba.conf', directory='/etc/postgresql') }}
     - text: host all all 172.17.0.1/16 trust
     - require:
         - pkg: postgresql-packages
