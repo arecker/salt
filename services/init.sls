@@ -31,6 +31,7 @@ docker-service:
 docker-test-image:
   dockerng.running:
     - name: hello-world
+    - image: hello-world
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
