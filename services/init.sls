@@ -29,8 +29,8 @@ docker-service:
         - cmd: docker-install
 
 docker-test-image:
-  docker.pulled:
-    - name: arecker:blog
+  dockerng.running:
+    - name: hello-world
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
