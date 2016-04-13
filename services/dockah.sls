@@ -47,4 +47,5 @@ docker-{{ project }}-image:
         - pip: docker-python-deps
         - pkg: docker-deps
         - service: docker-service
+        - sls: services.postgresql
 {% endfor %}
