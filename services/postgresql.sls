@@ -21,7 +21,7 @@ postgresql-{{ project }}-database:
   postgres_database.present:
     - name: {{ info.get('db_name') }}
     - owner: {{ info.get('db_user') }}
-    - host: 0.0.0.0
+    - db_host: 0.0.0.0
     - require:
         - postgres_user: postgresql-{{ project }}-database
   require:
