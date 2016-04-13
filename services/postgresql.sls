@@ -1,15 +1,17 @@
 postgresql-packages:
   pkg.installed:
     - pkgs:
-        - postgresql-9.4
+        - postgresql-9.3
 
-postgresql-config:
+postgresql-config-tcp:
   file.replace:
-    - name: /etc/postgresql/9.4/main/postgresql.conf
+    - name: /etc/postgresql/9.3/main/postgresql.conf
     - pattern: "listen_addresses='localhost'"
     - repl: "listen_addresses='localhost 172.17.0.1/16'"
+
+postgresql-config-auth:
   file.append:
-    - name: /etc/postgresql/9.4/main/pg_hba.conf
+    - name: /etc/postgresql/9.3/main/pg_hba.conf
     - text: host all all 172.17.0.1/16 trust
 
 postgresql-service:
@@ -18,10 +20,12 @@ postgresql-service:
     - enable: True
     - require:
         - pkg: postgresql-packages
-        - file: postgresql-config
+        - file: postgresql-config-tcp
+        - file: postgresql-config-auth
     - watch:
         - pkg: postgresql-packages
         - file: postgresql-config
+        - file: postgresql-config-auth
 
 {% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
