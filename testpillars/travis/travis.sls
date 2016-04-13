@@ -22,4 +22,4 @@ djangos:
     db_user: blog
     db_name: blogdb
     db_pass: docker
-    volumes: /home/alex/logs:/srv/logs
+    volumes: /home/travis:/srv/logs

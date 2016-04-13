@@ -24,5 +24,8 @@ script:
   - sudo salt-call --local --retcode-passthrough state.sls web
   - sudo salt-call --local --retcode-passthrough state.sls tests
 
+after_script:
+  - cat ~/blog.log
+
 notifications:
   email: false
