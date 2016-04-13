@@ -3,14 +3,22 @@ postgresql-packages:
     - pkgs:
         - postgresql
 
+postgresql-config:
+  file.replace:
+    - name: /var/lib/pgsql/data/postgresql.conf
+    - pattern: "listen_addresses='localhost'"
+    - replace: "listen_addresses='localhost 172.17.0.1/16'"
+
 postgresql-service:
   service.running:
     - name: postgresql
     - enable: True
     - require:
         - pkg: postgresql-packages
+        - file: postgresql-config
     - watch:
         - pkg: postgresql-packages
+        - file: postgresql-config
 
 {% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
