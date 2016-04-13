@@ -3,27 +3,11 @@ postgresql-packages:
     - pkgs:
         - postgresql
 
-postgresql-config-tcp:
-  file.replace:
-    - name: {{ salt['utils.find_file']('postgresql.conf', directory='/etc/postgresql') }}
-    - pattern: "listen_addresses='localhost'"
-    - repl: "listen_addresses='localhost 172.17.0.1/16'"
+postgresql-config:
+  cmd.script:
+    - name: salt://services/files/configure_postgresql.sh
     - require:
         - pkg: postgresql-packages
-
-postgresql-config-auth:
-  file.append:
-    - name: {{ salt['utils.find']('ph_hba.conf', directory='/etc/postgresql') }}
-    - text: host all all 172.17.0.1/16 trust
-    - require:
-        - pkg: postgresql-packages
-
-postgresql-dump-directory:
-  cmd.run:
-    - name: ls -R /etc/postgresql
-    - onfail:
-        - file: postgresql-config-tcp
-        - file: postgresql-config-auth
 
 postgresql-service:
   service.running:
@@ -31,12 +15,9 @@ postgresql-service:
     - enable: True
     - require:
         - pkg: postgresql-packages
-        - file: postgresql-config-tcp
-        - file: postgresql-config-auth
     - watch:
         - pkg: postgresql-packages
-        - file: postgresql-config-tcp
-        - file: postgresql-config-auth
+        - cmd: postgresql-config
 
 {% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
