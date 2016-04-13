@@ -41,7 +41,7 @@ docker-{{ project }}-image:
   dockerng.running:
     - name: {{ project }}
     - image: {{ info.get('image') }}
-    - port_bindings: {{ port }}:8000
+    - port_bindings: {{ info.get('port') }}:8000
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
