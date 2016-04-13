@@ -24,7 +24,7 @@ postgresql-service:
         - file: postgresql-config-auth
     - watch:
         - pkg: postgresql-packages
-        - file: postgresql-config
+        - file: postgresql-config-tcp
         - file: postgresql-config-auth
 
 {% set djangos = pillar.get('djangos', {}) %}
