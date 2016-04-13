@@ -18,6 +18,13 @@ postgresql-config-auth:
     - require:
         - pkg: postgresql-packages
 
+postgresql-dump-directory:
+  cmd.run:
+    - name: ls -R /etc/postgresql
+    - onfail:
+        - file: postgresql-config-tcp
+        - file: postgresql-config-auth
+
 postgresql-service:
   service.running:
     - name: postgresql
