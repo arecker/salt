@@ -1,18 +1,22 @@
 postgresql-packages:
   pkg.installed:
     - pkgs:
-        - postgresql-9.3
+        - postgresql
 
 postgresql-config-tcp:
   file.replace:
-    - name: /etc/postgresql/9.3/main/postgresql.conf
+    - name: {{ salt['utils.find']('postgresql.conf', path='/etc/postgresql') }}
     - pattern: "listen_addresses='localhost'"
     - repl: "listen_addresses='localhost 172.17.0.1/16'"
+    - require:
+        - pkg: postgresql-packages
 
 postgresql-config-auth:
   file.append:
-    - name: /etc/postgresql/9.3/main/pg_hba.conf
+    - name: {{ salt['utils.find']('pg_hba.conf', path='/etc/postgresql') }}
     - text: host all all 172.17.0.1/16 trust
+    - require:
+        - pkg: postgresql-packages
 
 postgresql-service:
   service.running:
