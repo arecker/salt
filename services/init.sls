@@ -30,7 +30,7 @@ docker-service:
 
 docker-test-image:
   docker.pulled:
-    - name: hello-world
+    - name: arecker:blog
     - require:
         - cmd: docker-install
         - pip: docker-python-deps
