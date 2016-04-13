@@ -15,9 +15,9 @@ postgresql-service:
     - enable: True
     - require:
         - pkg: postgresql-packages
+        - cmd: postgresql-config
     - watch:
         - pkg: postgresql-packages
-        - cmd: postgresql-config
 
 {% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
