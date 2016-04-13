@@ -41,7 +41,7 @@ docker-{{ project }}-image:
   dockerng.running:
     - name: {{ project }}
     - image: {{ info.get('image') }}
-    - port_bindings: {{ info.get('port') }}:8000
+    - port_bindings: {{ info.get('port') }}:8000,5432:5432
     - volumes: {{ info.get('volumes', '') }}
     - environment:
         - HOST: {{ info.get('host') }}
