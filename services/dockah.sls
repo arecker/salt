@@ -37,12 +37,22 @@ docker-test-image:
 
 {% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
+docker-{{ project }}-static-dir:
+  file.directory:
+    - name: {{ info.get('static') }}
+
+docker-{{ project }}-logs-dir:
+  file.directory:
+    - name: {{ info.get('logs') }}
+
 docker-{{ project }}-image:
   dockerng.running:
     - name: {{ project }}
     - image: {{ info.get('image') }}
     - port_bindings: {{ info.get('port') }}:8000
-    - volumes: {{ info.get('volumes', '') }}
+    - volumes:
+        - {{ info.get('logs') }}:/srv/logs
+        - {{ info.get('static') }}:/srv/static
     - extra_hosts: db:172.17.0.1
     - environment:
         - HOST: {{ info.get('host') }}
@@ -55,5 +65,7 @@ docker-{{ project }}-image:
         - pip: docker-python-deps
         - pkg: docker-deps
         - service: docker-service
+        - file: docker-{{ project }}-static-dir
+        - file: docker-{{ project }}-logs-dir
         - sls: services.postgresql
 {% endfor %}

@@ -1,4 +1,5 @@
 ssh_port: 22
+
 users:
   alex:
     name: Alex Recker
@@ -22,4 +23,5 @@ djangos:
     db_user: blog
     db_name: blogdb
     db_pass: docker
-    volumes: /temp/:/srv/logs
+    static: /var/www/blog
+    logs: /home/travis/logs
