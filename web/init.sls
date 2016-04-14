@@ -36,6 +36,7 @@ web-nginx-default-host:
 
 include:
   - web.static
+  - web.django
 
 web-nginx-service:
   service.running:
@@ -47,3 +48,4 @@ web-nginx-service:
         - file: web-nginx-default-page
         - file: web-nginx-default-host
         - sls: web.static
+        - sls: web.django
