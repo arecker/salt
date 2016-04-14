@@ -18,7 +18,6 @@ web-django-hosts:
         djangos: {{ DJANGOS }}
     - require:
         - pkg: web-packages
-        - sls: services.dockah
           {% for project, info in DJANGOS.iteritems() %}
         - host: web-django-{{ project }}-hostname
           {% endfor %}
