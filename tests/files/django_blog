@@ -5,9 +5,9 @@ import socket
 
 def main():
     response = urllib.urlopen('http://backends.alexrecker.com/api/')
-    assert response.getcode() == 403
+    content = ''.join(response.readlines())
     assert response.geturl() == 'http://backends.alexrecker.com'
-    assert socket.gethostbyname('bobrosssearch.com') == '127.0.0.1'
+    assert socket.gethostbyname('backends.alexrecker.com') == '127.0.0.1'
     exit()
 
 
