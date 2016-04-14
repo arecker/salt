@@ -4,7 +4,7 @@
 server {
     listen 80;
     server_name {{ info.get('host') }};
-    root {{ info.get('root') }};
+    root {{ info.get('static') }};
     location /static/ {
         alias {{ info.get('static') }}/static/;
     }
