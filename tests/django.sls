@@ -6,3 +6,7 @@ django-blog-db-exists:
 django-blog-log-exists:
   cmd.run:
     - name: test -f /home/travis/logs/blog.log
+
+django-blog-static-exists:
+  cmd.run:
+    - name: test -d /var/www/blog/static

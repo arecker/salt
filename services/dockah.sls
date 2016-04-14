@@ -40,10 +40,12 @@ docker-test-image:
 docker-{{ project }}-static-dir:
   file.directory:
     - name: {{ info.get('static') }}
+    - makedirs: True
 
 docker-{{ project }}-logs-dir:
   file.directory:
     - name: {{ info.get('logs') }}
+    - makedirs: True
 
 docker-{{ project }}-image:
   dockerng.running:
