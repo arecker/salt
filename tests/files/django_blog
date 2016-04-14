@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+import urllib
+import socket
+
+
+def main():
+    response = urllib.urlopen('http://backends.alexrecker.com/api/')
+    assert response.getcode() == 403
+    assert response.geturl() == 'http://backends.alexrecker.com'
+    assert socket.gethostbyname('bobrosssearch.com') == '127.0.0.1'
+    exit()
+
+
+if __name__ == '__main__':
+    main()
