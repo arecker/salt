@@ -66,7 +66,7 @@ docker-{{ project }}-image:
         - EMAIL_HOST: {{ info.get('email_host') }}
         - EMAIL_USER: {{ info.get('email_user') }}
         - EMAIL_PASS: {{ info.get('email_pass') }}
-        - EMAIL_PORT: {{ info.get('email_port') }}
+        - EMAIL_PORT: '{{ info.get('email_port') }}'
           {% endif %}
     - require:
         - cmd: docker-install
