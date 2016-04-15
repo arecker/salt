@@ -26,6 +26,6 @@ djangos:
     email_host: smtp.test.com
     email_user: alex@test.com
     email_pass: lol-dont-tell-anyone
-    email_port: 887
+    email_port: '887'
     static: /var/www/blog
     logs: /home/travis/logs/blog
