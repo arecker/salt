@@ -62,6 +62,12 @@ docker-{{ project }}-image:
         - DB_NAME: {{ info.get('db_name') }}
         - DB_USER: {{ info.get('db_user') }}
         - DB_PASS: {{ info.get('db_pass') }}
+          {% if info.get('email_host', None) %}
+        - EMAIL_HOST: {{ info.get('email_host') }}
+        - EMAIL_USER: {{ info.get('email_user') }}
+        - EMAIL_PASS: {{ info.get('email_pass') }}
+        - EMAIL_PORT: {{ info.get('email_port') }}
+          {% endif %}
     - require:
         - cmd: docker-install
         - pip: docker-python-deps

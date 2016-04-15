@@ -23,5 +23,9 @@ djangos:
     db_user: blog
     db_name: blogdb
     db_pass: docker
+    email_host: smtp.test.com
+    email_user: alex@test.com
+    email_pass: lol-dont-tell-anyone
+    email_port: 887
     static: /var/www/blog
-    logs: /home/travis/logs
+    logs: /home/travis/logs/blog
