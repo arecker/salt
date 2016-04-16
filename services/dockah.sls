@@ -52,12 +52,12 @@ docker-{{ project }}-image:
     - name: {{ project }}
     - image: {{ info.get('image') }}
     - port_bindings: {{ info.get('port') }}:8000
-    - volumes:
+    - binds:
         - {{ info.get('logs') }}:/srv/logs
         - {{ info.get('static') }}:/srv/static
     - extra_hosts: db:172.17.0.1
     - environment:
-        - HOST: {{ info.get('host') }}
+        - ALLOWED_HOST: {{ info.get('host') }}
         - SECRET_KEY: {{ info.get('secret') }}
         - DB_NAME: {{ info.get('db_name') }}
         - DB_USER: {{ info.get('db_user') }}
