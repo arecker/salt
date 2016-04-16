@@ -17,7 +17,7 @@ statics:
 djangos:
   blog:
     image: arecker/blog
-    host: backends.alexrecker.com
+    host: backend.alexrecker.com
     port: 8001
     secret: lol-so-secret
     db_user: blog
