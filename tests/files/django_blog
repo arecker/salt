@@ -4,7 +4,7 @@ import json
 
 
 def main():
-    response = requests.get('http://backends.alexrecker.com/api/')
+    response = requests.get('http://backend.alexrecker.com/api/')
     data = json.loads(response.content)
 
     assert response.status_code is 200
