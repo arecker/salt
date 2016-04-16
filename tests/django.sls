@@ -1,4 +1,4 @@
-djang-test-reqs:
+django-test-reqs:
   pip.installed:
     - name: requests
 
