@@ -9,7 +9,7 @@ def main():
 
     assert response.status_code is 200
 
-    for key in ['documents', 'images', 'fortune-cookies', 'images', 'subscribers']:
+    for key in ['fortune-cookies', 'subscribers']:
         assert data.has_key(key)
 
     exit()
