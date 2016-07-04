@@ -5,7 +5,7 @@ import urllib2
 def main():
     response = urllib2.open('http://backend.alexrecker.com/api/')
 
-    assert response.status is 200, 'response code is actually {}'.format(response.status)
+    assert response.getcode() is 200, 'response code is actually {}'.format(response.getcode())
 
     data = response.read()
 

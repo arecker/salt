@@ -22,7 +22,7 @@ def main():
     response = urllib2.urlopen('http://alexrecker.com')
     html = response.read()
 
-    assert response.status is 200, 'response code is actually {}'.format(response.status)
+    assert response.getcode() is 200, 'response code is actually {}'.format(response.getcode())
 
     assert 'Test Page' in html
 
