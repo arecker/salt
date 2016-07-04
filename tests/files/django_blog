@@ -7,6 +7,10 @@ def main():
 
     assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
 
+    if not response.status_code is 200:
+        from pprint import pprint
+        pprint(response.__dict__)
+
     data = response.json()
 
     for key in ['fortune-cookies', 'subscribers']:
