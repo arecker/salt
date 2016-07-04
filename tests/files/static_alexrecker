@@ -20,7 +20,7 @@ def main():
     with file(target, 'w+') as f:
         f.write(content)
 
-    response = requests.get('alexrecker.com')
+    response = requests.get('http://alexrecker.com')
 
     assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
 
