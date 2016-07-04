@@ -9,14 +9,19 @@ users:
 
 statics:
   bob:
+    user: root
     git: https://github.com/arecker/bobrosssearch.com.git
     root: /var/www/bob
     host: bobrosssearch.com
+  blog-jekyll:
+    user: root
+    root: /var/www/blog-jekyll
+    host: alexrecker.com
 
 djangos:
   blog:
     user: alex
-    host: backends.alexrecker.com
+    host: backend.alexrecker.com
     secret: lol-so-secret
     git: https://github.com/arecker/blog.git
     src: /home/alex/git/blog

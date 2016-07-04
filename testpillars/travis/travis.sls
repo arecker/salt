@@ -13,6 +13,11 @@ statics:
     git: https://github.com/arecker/bobrosssearch.com.git
     root: /var/www/bob
     host: bobrosssearch.com
+    user: travis
+  blog-jekyll:
+    root: /var/www/blog-jekyll
+    user: travis
+    host: alexrecker.com
 
 djangos:
   blog:

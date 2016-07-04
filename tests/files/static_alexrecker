@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import requests
+
+content = '''
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Test Page</h1>
+  </body>
+</html>
+'''
+target = /var/www/blog-jekyll/index.html
+
+def main():
+    with file(target, 'w+') as f:
+        f.write(content)
+
+    response = requests.get('alexrecker.com')
+
+    assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
+
+    assert 'Test Page' in response.content
+
+
+if __name__ == '__main__':
+    main()

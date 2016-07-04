@@ -1,18 +1,29 @@
-{% set STATICS = salt['pillar.get']('statics', {}) %}
-{% for site, info in STATICS.iteritems() %}
-{% set git = info.get('git', None) %}
-{% set root = info.get('root') %}
-
 web-static-packages:
   pkg.installed:
     - name: git
 
+{% set STATICS = salt['pillar.get']('statics', {}) %}
+{% for site, info in STATICS.iteritems() %}
+{% set git = info.get('git', None) %}
+{% set root = info.get('root') %}
+{% set user = info.get('user') %}
+
+{% if git %}
 web-static-{{ site }}-git:
   git.latest:
     - name: {{ git }}
     - target: {{ root }}
     - require:
         - pkg: web-static-packages
+{% endif %}
+
+web-static-{{ site }}-target:
+  file.directory:
+    - name: {{ root }}
+    - user: {{ user }}
+    - group: www-data
+    - dir_mode: 755
+    - recurse: [user, group, mode]
 
 web-static-{{ site }}-hostname:
   host.present:
@@ -32,7 +43,10 @@ web-static-hosts:
         - pkg: web-packages
         {% for site, info in STATICS.iteritems() %}
         - host: web-static-{{ site }}-hostname
+        - file: web-static-{{ site }}-target
+        {% if info.get('git', None ) %}
         - git: web-static-{{ site }}-git
+        {% endif %}
         {% endfor %}
     - context:
         statics: {{ STATICS }}
