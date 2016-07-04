@@ -5,5 +5,3 @@ tests-reqs:
 include:
   - tests.static
   - tests.django
-  - require:
-      - pip: test-reqs
