@@ -3,7 +3,7 @@ import urllib2
 
 
 def main():
-    response = urllib2.open('http://backend.alexrecker.com/api/')
+    response = urllib2.urlopen('http://backend.alexrecker.com/api/')
 
     assert response.getcode() is 200, 'response code is actually {}'.format(response.getcode())
 
