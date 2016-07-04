@@ -1,6 +1,5 @@
-static-pip-reqs:
-  pip.installed:
-    - requests
+requests:
+  pip.installed: []
 
 static-bob:
   cmd.script:
@@ -11,4 +10,4 @@ static-blog-jekyll:
     - name: salt://tests/files/static_alexrecker
     - runas: travis
     - require:
-        - pip: static-pip-reqs
+        - pip: requests

@@ -1,6 +1,5 @@
-django-pip-reqs:
-  pip.installed:
-    - requests
+requests:
+  pip.installed: []
 
 django-blog-db-exists:
   cmd.script:
@@ -17,4 +16,4 @@ django-blog-web:
   cmd.script:
     - name: salt://tests/files/django_blog
     - require:
-        - pip: django-pip-reqs
+        - pip: requests
