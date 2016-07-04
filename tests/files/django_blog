@@ -4,10 +4,9 @@ import requests
 
 def main():
     response = requests.get('http://backend.alexrecker.com/api/')
+    print(response.content)
 
     assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
-
-    print(response.content)
 
     data = response.json()
 
