@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-import requests
+import urllib2
 
 content = '''
 <!doctype html>
@@ -20,11 +19,12 @@ def main():
     with file(target, 'w+') as f:
         f.write(content)
 
-    response = requests.get('http://alexrecker.com')
+    response = urllib2.urlopen('http://alexrecker.com')
+    html = response.read()
 
-    assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
+    assert response.status is 200, 'response code is actually {}'.format(response.status)
 
-    assert 'Test Page' in response.content
+    assert 'Test Page' in html
 
 
 if __name__ == '__main__':
