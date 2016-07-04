@@ -7,8 +7,7 @@ def main():
 
     assert response.status_code is 200, 'response code is actually {}'.format(response.status_code)
 
-    if not response.status_code is 200:
-        print(response.content)
+    print(response.content)
 
     data = response.json()
 
