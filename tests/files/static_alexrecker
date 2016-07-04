@@ -14,7 +14,7 @@ content = '''
   </body>
 </html>
 '''
-target = /var/www/blog-jekyll/index.html
+target = '/var/www/blog-jekyll/index.html'
 
 def main():
     with file(target, 'w+') as f:
