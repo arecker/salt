@@ -57,7 +57,7 @@ docker-{{ project }}-image:
         - {{ info.get('static') }}:/srv/static
     - extra_hosts: db:172.17.0.1
     - environment:
-        - ALLOWED_HOST: {{ info.get('host') }}
+        - HOST: {{ info.get('host') }}
         - SECRET_KEY: {{ info.get('secret') }}
         - DB_NAME: {{ info.get('db_name') }}
         - DB_USER: {{ info.get('db_user') }}
