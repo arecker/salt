@@ -1,6 +1,7 @@
 static-pip-reqs:
   pip.installed:
     - name: requests
+    - reload_modules: True
 
 static-bob:
   cmd.script:

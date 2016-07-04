@@ -1,6 +1,7 @@
 django-pip-reqs:
   pip.installed:
     - name: requests
+    - reload_modules: True
 
 django-blog-db-exists:
   cmd.script:
