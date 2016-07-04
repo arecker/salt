@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 import requests
-import json
 
 
 def main():
     response = requests.get('http://backend.alexrecker.com/api/')
-    data = json.loads(response.content)
-
     assert response.status_code is 200
+
+    data = response.json()
 
     for key in ['fortune-cookies', 'subscribers']:
         assert data.has_key(key)
