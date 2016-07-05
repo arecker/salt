@@ -21,7 +21,7 @@ statics:
 
 djangos:
   blog:
-    image: arecker/blog
+    image: arecker/blog:latest
     host: backend.alexrecker.com
     port: 8001
     secret: lol-so-secret
@@ -35,7 +35,7 @@ djangos:
     static: /var/www/blog
     logs: /home/travis/logs/blog
   moolah:
-    images: arecker/moolah
+    image: arecker/moolah:latest
     port: 8002
     secret: anotha-secret-yo
     db_user: moolah
