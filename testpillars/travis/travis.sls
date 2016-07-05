@@ -34,3 +34,12 @@ djangos:
     email_port: 887
     static: /var/www/blog
     logs: /home/travis/logs/blog
+  moolah:
+    images: arecker/moolah
+    port: 8002
+    secret: anotha-secret-yo
+    db_user: moolah
+    db_name: moolah
+    db_pass: travisdb
+    static: /var/www/moolah
+    logs: /home/travis/logs/moolah
