@@ -6,8 +6,8 @@ before_install:
   - sudo apt-get update
   - sudo service postgresql stop
   - sudo apt-get --purge remove postgresql\*
-  - sudo apt-get install python-pip
-  - sudo pip install docker-py
+  - sudo apt-get install python-pip postgresql-client python-psycopg2
+  - sudo pip install docker-py psycopg2
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:

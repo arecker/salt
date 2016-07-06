@@ -2,6 +2,8 @@ import urllib
 import socket
 import unittest
 
+import psycopg2
+
 
 class TestWebsites(unittest.TestCase):
     def assert_website_works(self, url='', expected_html='', domain=''):
@@ -29,10 +31,22 @@ class TestWebsites(unittest.TestCase):
 
     def test_moolah(self):
         self.assert_website_works(
-            url='moolah.reckerfamily.com',
+            url='http://moolah.reckerfamily.com',
             expected_html='Login',
             domain='moolah.reckerfamily.com'
         )
+
+
+class TestDatabase(unittest.TestCase):
+    def assert_database_works(self, name='', user='', password='', table=''):
+        connstring = "dbname='{}' user='{}' host='localhost' password='{}'".format(name, user, password)
+        conn = psycopg2.connect(connstring)
+        cursor.execute("SELECT 1 FROM {}".table)
+        record = cursor.fetchone()
+        self.assertEqual(record, 1)
+
+    def test_blog(self):
+        self.assert_database_works(name='blogdb', user='blog', password='docker', table='auth_user')
 
 
 if __name__ == '__main__':
