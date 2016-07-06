@@ -28,7 +28,7 @@ class TestWebsites(unittest.TestCase):
     def test_moolah(self):
         self.assert_website_works(
             domain='moolah.reckerfamily.com',
-            expected_html='Login',
+            expected_html='<title>Moolah</title>',
         )
 
 
