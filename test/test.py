@@ -15,7 +15,7 @@ class TestWebsites(unittest.TestCase):
 
     def test_bob(self):
         self.assert_website_works(
-            domain='bobrosssearch.com'
+            domain='bobrosssearch.com',
             expected_html='<title>Bob Ross Search</title>',
         )
 
@@ -29,7 +29,7 @@ class TestWebsites(unittest.TestCase):
 
     def test_moolah(self):
         self.assert_website_works(
-            domain='moolah.reckerfamily.com'
+            domain='moolah.reckerfamily.com',
             expected_html='Login',
         )
 
@@ -43,10 +43,20 @@ class TestDatabase(unittest.TestCase):
         self.assertEqual(record, 1)
 
     def test_blog(self):
-        self.assert_database_works(name='blogdb', user='blog', password='docker', table='auth_user')
+        self.assert_database_works(
+            name='blogdb',
+            user='blog',
+            password='docker',
+            table='auth_user'
+        )
 
     def test_moolah(self):
-        self.assert_database_works(name='moolah', user='moolah', password='travisdb', table='auth_user')
+        self.assert_database_works(
+            name='moolah',
+            user='moolah',
+            password='travisdb',
+            table='auth_user'
+        )
 
 
 if __name__ == '__main__':
