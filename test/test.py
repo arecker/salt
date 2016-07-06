@@ -6,8 +6,8 @@ import psycopg2
 
 
 class TestWebsites(unittest.TestCase):
-    def assert_website_works(self, url='', expected_html='', domain=''):
-        response = urllib.urlopen(url)
+    def assert_website_works(self, expected_html='', domain=''):
+        response = urllib.urlopen('http://' + domain)
         content = ''.join(response.readlines())
         self.assertEqual(response.getcode(), 200)
         self.assertIn(expected_html, ''.join(response.readlines()))
@@ -15,25 +15,22 @@ class TestWebsites(unittest.TestCase):
 
     def test_bob(self):
         self.assert_website_works(
-            url='http://bobrosssearch.com',
-            expected_html='<title>Bob Ross Search</title>',
             domain='bobrosssearch.com'
+            expected_html='<title>Bob Ross Search</title>',
         )
 
     def test_blog(self):
         with open('/var/www/blog/index.html', 'w+') as f:
             f.write('<h1>Hi There</h1>')
         self.assert_website_works(
-            url='http://alexrecker.com',
+            domain='alexrecker.com',
             expected_html='<h1>Hi There</h1>',
-            domain='alexrecker.com'
         )
 
     def test_moolah(self):
         self.assert_website_works(
-            url='http://moolah.reckerfamily.com',
-            expected_html='Login',
             domain='moolah.reckerfamily.com'
+            expected_html='Login',
         )
 
 
