@@ -45,6 +45,9 @@ class TestDatabase(unittest.TestCase):
     def test_blog(self):
         self.assert_database_works(name='blogdb', user='blog', password='docker', table='auth_user')
 
+    def test_moolah(self):
+        self.assert_database_works(name='moolah', user='moolah', password='travisdb', table='auth_user')
+
 
 if __name__ == '__main__':
     unittest.main()
