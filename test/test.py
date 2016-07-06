@@ -10,7 +10,7 @@ class TestWebsites(unittest.TestCase):
         response = urllib.urlopen('http://' + domain)
         content = ''.join(response.readlines())
         self.assertEqual(response.getcode(), 200)
-        self.assertIn(expected_html, ''.join(response.readlines()))
+        self.assertIn(expected_html, content)
         self.assertEqual(socket.gethostbyname(domain), '127.0.0.1')
 
     def test_bob(self):
@@ -36,8 +36,7 @@ class TestWebsites(unittest.TestCase):
 
 class TestDatabase(unittest.TestCase):
     def assert_database_works(self, name='', user='', password='', table=''):
-        connstring = "dbname='{}' user='{}' host='localhost' password='{}'".format(name, user, password)
-        conn = psycopg2.connect(connstring)
+        conn = psycopg2.connect(database=name, user=user, password=password)
         cursor.execute("SELECT 1 FROM {}".format(table))
         record = cursor.fetchone()
         self.assertEqual(record, 1)
