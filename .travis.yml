@@ -6,11 +6,11 @@ before_install:
   - sudo apt-get update
   - sudo service postgresql stop
   - sudo apt-get --purge remove postgresql\*
-  - sudo apt-get install python-pip postgresql-client python-psycopg2
-  - sudo pip install docker-py psycopg2
+  - sudo apt-get install python-pip postgresql-client python-psycopg2 build-dep
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
+  - pip install docker-py psycopg2
   - sudo cp -r . /srv/salt/
   - sudo cp -r ./test/travispillars /srv/pillar
   - sudo service salt-minion restart
