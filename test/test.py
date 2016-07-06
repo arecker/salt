@@ -27,6 +27,13 @@ class TestWebsites(unittest.TestCase):
             domain='alexrecker.com'
         )
 
+    def test_moolah(self):
+        self.assert_website_works(
+            url='moolah.reckerfamily.com',
+            expected_html='Login',
+            domain='moolah.reckerfamily.com'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
