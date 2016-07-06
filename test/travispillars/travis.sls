@@ -36,6 +36,7 @@ djangos:
     logs: /home/travis/logs/blog
   moolah:
     image: arecker/moolah:latest
+    host: moolah.reckerfamily.com
     port: 8002
     secret: anotha-secret-yo
     db_user: moolah
