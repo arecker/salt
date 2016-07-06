@@ -38,7 +38,7 @@ class TestDatabase(unittest.TestCase):
     def assert_database_works(self, name='', user='', password='', table=''):
         connstring = "dbname='{}' user='{}' host='localhost' password='{}'".format(name, user, password)
         conn = psycopg2.connect(connstring)
-        cursor.execute("SELECT 1 FROM {}".table)
+        cursor.execute("SELECT 1 FROM {}".format(table))
         record = cursor.fetchone()
         self.assertEqual(record, 1)
 
