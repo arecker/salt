@@ -1,2 +1,0 @@
-#!/bin/bash
-psql -d blogdb -c "SELECT 1 FROM auth_user"

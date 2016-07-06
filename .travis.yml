@@ -6,23 +6,21 @@ before_install:
   - sudo apt-get update
   - sudo service postgresql stop
   - sudo apt-get --purge remove postgresql\*
-  - sudo apt-get install python-pip
-  - sudo pip install docker-py
   - curl -L https://bootstrap.saltstack.com | sudo sh -s -- stable
 
 install:
   - sudo cp -r . /srv/salt/
-  - sudo cp -r ./testpillars/travis /srv/pillar
+  - sudo cp -r ./test/travispillars /srv/pillar
   - sudo service salt-minion restart
   - sudo salt-call --local saltutil.sync_all
-  - sudo salt-call grains.items --local
+  - sudo salt-call --local grains.items
 
 script:
   - sudo salt-call --local --retcode-passthrough state.sls system.locale
   - sudo salt-call --local --retcode-passthrough state.sls auth
   - sudo salt-call --local --retcode-passthrough state.sls services
   - sudo salt-call --local --retcode-passthrough state.sls web
-  - sudo salt-call --local --retcode-passthrough state.sls tests
+  - python ./test/test.py
 
 notifications:
   email: false
