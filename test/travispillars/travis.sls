@@ -15,7 +15,7 @@ statics:
     host: bobrosssearch.com
     user: travis
   blog-jekyll:
-    root: /var/www/blog-jekyll
+    root: /var/www/blog
     user: travis
     host: alexrecker.com
 
@@ -32,7 +32,7 @@ djangos:
     email_user: alex@test.com
     email_pass: lol-dont-tell-anyone
     email_port: 887
-    static: /var/www/blog
+    static: /var/www/blog-backend
     logs: /home/travis/logs/blog
   moolah:
     image: arecker/moolah:latest

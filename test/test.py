@@ -18,6 +18,15 @@ class TestWebsites(unittest.TestCase):
             domain='bobrosssearch.com'
         )
 
+    def test_blog(self):
+        with open('/var/www/blog/index.html', 'w+') as f:
+            f.write('<h1>Hi There</h1>')
+        self.assert_website_works(
+            url='http://alexrecker.com',
+            expected_html='<h1>Hi There</h1>',
+            domain='alexrecker.com'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
