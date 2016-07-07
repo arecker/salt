@@ -21,7 +21,7 @@ statics:
 
 djangos:
   blog:
-    image: arecker/blog:latest
+    git: https://github.com/arecker/blog
     host: backend.alexrecker.com
     port: 8001
     secret: lol-so-secret
@@ -33,9 +33,11 @@ djangos:
     email_pass: lol-dont-tell-anyone
     email_port: 887
     static: /var/www/blog-backend
-    logs: /home/travis/logs/blog
+    log: /home/travis/logs/blog.log
+    redis_cache_no: 0
+    redis_broker_no: 1
   moolah:
-    image: arecker/moolah:latest
+    git: https://github.com/arecker/moolah
     host: moolah.reckerfamily.com
     port: 8002
     secret: anotha-secret-yo
@@ -43,4 +45,6 @@ djangos:
     db_name: moolah
     db_pass: travisdb
     static: /var/www/moolah
-    logs: /home/travis/logs/moolah
+    log: /home/travis/logs/moolah
+    redis_cache_no: 2
+    redis_broker_no: 3

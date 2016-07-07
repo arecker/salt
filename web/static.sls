@@ -23,6 +23,7 @@ web-static-{{ site }}-target:
     - user: {{ user }}
     - group: www-data
     - dir_mode: 755
+    - makedirs: True
     - recurse: [user, group, mode]
 
 web-static-{{ site }}-hostname:

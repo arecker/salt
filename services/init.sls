@@ -1,3 +1,4 @@
 include:
-  - services.postgresql
-  - services.dockah
+  - services.redis
+  - services.database
+  - services.django

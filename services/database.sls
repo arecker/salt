@@ -3,19 +3,12 @@ postgresql-packages:
     - pkgs:
         - postgresql
 
-postgresql-config:
-  cmd.script:
-    - name: salt://services/files/configure_postgresql.sh
-    - require:
-        - pkg: postgresql-packages
-
 postgresql-service:
   service.running:
     - name: postgresql
     - enable: True
     - require:
         - pkg: postgresql-packages
-        - cmd: postgresql-config
     - watch:
         - pkg: postgresql-packages
 

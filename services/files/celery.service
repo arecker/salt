@@ -1,0 +1,11 @@
+[Unit]
+Description={{ PROJECT }} Celery Service
+After=network.target
+
+[Service]
+User={{ USER }}
+WorkingDirectory={{ WORKING_DIR }}
+ExecStart={{ CELERY }} worker -A {{ PROJECT }} -B
+
+[Install]
+WantedBy=multi-user.target
