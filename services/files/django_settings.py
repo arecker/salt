@@ -9,7 +9,7 @@ DATABASES = {
         'NAME': '{{ DB_NAME }}',
         'USER': '{{ DB_USER }}',
         'PASSWORD': '{{ DB_PASS }}',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -83,3 +83,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_HOST = '{{ EMAIL_HOST }}'
+EMAIL_HOST_USER = '{{ EMAIL_USER }}'
+EMAIL_HOST_PASSWORD = '{{ EMAIL_PASS }}'
+EMAIL_PORT = '{{ EMAIL_PORT }}'
+EMAIL_USE_TLS = True

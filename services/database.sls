@@ -17,7 +17,7 @@ postgresql-service:
 postgresql-{{ project }}-database:
   postgres_user.present:
     - name: {{ info.get('db_user') }}
-    - db_password: {{ info.get('db_pass') }}
+    - password: {{ info.get('db_pass') }}
   postgres_database.present:
     - name: {{ info.get('db_name') }}
     - owner: {{ info.get('db_user') }}

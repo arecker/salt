@@ -70,6 +70,10 @@ django-{{ project }}-prod-settings:
         LOG_FILE: {{ info.get('log') }}
         REDIS_CACHE_NO: {{ info.get('redis_cache_no') }}
         REDIS_BROKER_NO: {{ info.get('redis_broker_no') }}
+        EMAIL_HOST: {{ info.get('email_host') }}
+        EMAIL_USER: {{ info.get('email_user') }}
+        EMAIL_PASS: {{ info.get('email_pass') }}
+        EMAIL_PORT: {{ info.get('email_port') }}
     - require:
         - git: django-{{ project }}-git
 
@@ -83,6 +87,22 @@ except ImportError:
     pass"
     - require:
         - git: django-{{ project }}-git
+
+django-{{ project }}-migrate:
+  cmd.run:
+    - name: {{ manage  + ' migrate' }}
+    - require:
+        - file: django-{{ project }}-prod-settings
+        - virtualenv: django-{{ project }}-virtualenv
+        - virtualenv: django-{{ project }}-virtualenv-prod
+
+django-{{ project }}-collectstatic:
+  cmd.run:
+    - name: {{ manage + ' collectstatic --no-input' }}
+    - require:
+        - file: django-{{ project }}-prod-settings
+        - virtualenv: django-{{ project }}-virtualenv
+        - virtualenv: django-{{ project }}-virtualenv-prod
 
 django-{{ project }}-gunicorn:
   file.managed:
@@ -120,6 +140,7 @@ django-{{ project }}-celery:
         PROJECT: {{ project }}
         USER: {{ info.get('user') }}
         WORKING_DIR: {{ target }}
+        LOG: {{ info.get('log') }}
         CELERY: {{ venv_root + '/bin/celery' }}
   service.running:
     - name: {{ project + '-celery.service' }}
