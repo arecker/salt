@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User={{ USER }}
 WorkingDirectory={{ WORKING_DIR }}
-ExecStart={{ CELERY }} worker -A {{ PROJECT }} -B -f {{ LOG }}
+ExecStart={{ CELERY }} worker -A {{ PROJECT }} -B -f {{ LOG }} --concurrency=1
 
 [Install]
 WantedBy=multi-user.target

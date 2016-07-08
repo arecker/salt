@@ -26,6 +26,7 @@ django-{{ project }}-git:
     - target: {{ target }}
     - user: {{ info.get('user') }}
     - force_reset: True
+    - force_checkout : False
     - require:
         - pkg: django-packages
 
@@ -116,12 +117,13 @@ django-{{ project }}-gunicorn:
         WORKING_DIR: {{ target }}
         WSGI: {{ project + '.wsgi' }}
         LOG: {{ info.get('log') }}
-        WORKERS: {{ info.get('workers', '3') }}
+        WORKERS: {{ info.get('workers', '1') }}
         GUNICORN: {{ venv_root + '/bin/gunicorn' }}
         PORT: {{ info.get('port') }}
   service.running:
     - name: {{ project + '-gunicorn.service' }}
     - enable: True
+    - reload: True
     - require:
         - virtualenv: django-{{ project }}-virtualenv
         - virtualenv: django-{{ project }}-virtualenv-prod
@@ -145,6 +147,7 @@ django-{{ project }}-celery:
   service.running:
     - name: {{ project + '-celery.service' }}
     - enable: True
+    - reload: True
     - require:
         - virtualenv: django-{{ project }}-virtualenv
         - virtualenv: django-{{ project }}-virtualenv-prod

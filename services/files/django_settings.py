@@ -1,5 +1,8 @@
 import os
 
+from settings import INSTALLED_APPS
+INSTALLED_APPS += ("djcelery_email",)
+
 SECRET_KEY = '{{ SECRET_KEY }}'
 DEBUG = False
 ALLOWED_HOSTS = ['{{ HOST }}']
