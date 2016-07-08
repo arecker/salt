@@ -21,6 +21,7 @@ statics:
 
 djangos:
   blog:
+    user: travis
     git: https://github.com/arecker/blog
     host: backend.alexrecker.com
     port: 8001
@@ -37,6 +38,7 @@ djangos:
     redis_cache_no: 0
     redis_broker_no: 1
   moolah:
+    user: travis
     git: https://github.com/arecker/moolah
     host: moolah.reckerfamily.com
     port: 8002
