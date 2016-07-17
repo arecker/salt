@@ -1,4 +1,5 @@
 {% for site, info in statics.iteritems() %}
+{% set redirects = info.get('redirects', {}) %}
 # {{ site }} server configuration
 #
 server {
@@ -6,6 +7,11 @@ server {
     root {{ info.get('root') }};
     index index.html;
     listen 80;
+    {% for location, target in redirects.iteritems() %}
+    location ~ ^{{ location }}/(.*)$ {
+        return 301 {{ target }};
+    }
+    {% endfor %}
     location / {
         try_files $uri $uri/ =404;
     }
