@@ -1,5 +1,14 @@
 {% set DJANGOS = salt['pillar.get']('djangos', {}) %}
 {% for project, info in DJANGOS.iteritems() %}
+web-django-{{ project }}-static:
+  file.directory:
+    - name: {{ info.get('static') }}
+    - user: {{ info.get('user') }}
+    - group: www-data
+    - dir_mode: 755
+    - makedirs: True
+    - recurse: [user, group, mode]
+
 web-django-{{ project }}-hostname:
   host.present:
     - ip: 127.0.0.1
