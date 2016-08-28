@@ -8,7 +8,7 @@ server {
     index index.html index.xml;
     listen 80;
     {% for location, target in redirects.iteritems() %}
-    location ~ ^{{ location }}/(.*)$ {
+    location = {{ location }} {
         return 301 {{ target }};
     }
     {% endfor %}

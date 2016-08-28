@@ -1,3 +1,5 @@
+{% set djangos = pillar.get('djangos', {}) %}
+{% if djangos %}
 postgresql-packages:
   pkg.installed:
     - pkgs:
@@ -12,7 +14,6 @@ postgresql-service:
     - watch:
         - pkg: postgresql-packages
 
-{% set djangos = pillar.get('djangos', {}) %}
 {% for project, info in djangos.iteritems() %}
 postgresql-{{ project }}-database:
   postgres_user.present:
@@ -27,3 +28,4 @@ postgresql-{{ project }}-database:
     - service: postgresql-service
     - pkg: postgresql-packages
 {% endfor %}
+{% endif %}

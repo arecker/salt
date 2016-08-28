@@ -1,3 +1,4 @@
+{% set djangos = pillar.get('djangos', {}) %}
 django-packages:
   pkg.installed:
     - pkgs:
@@ -13,7 +14,7 @@ django-packages:
         - zlib1g
         - zlib1g-dev
 
-{% set djangos = pillar.get('djangos', {}) %}
+{% if djangos %}
 {% for project, info in djangos.iteritems() %}
 {% set target = info.get('src', '/home/' + info.get('user') + '/git/' + project) %}
 {% set venv_root = info.get('venv_root', '/home/' + info.get('user') + '/.virtualenvs/' + project) %}
@@ -156,3 +157,4 @@ django-{{ project }}-celery:
         - file: django-{{ project }}-settings
         - file: django-{{ project }}-celery
 {% endfor %}
+{% endif %}

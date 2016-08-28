@@ -1,4 +1,4 @@
-web-static-packages:
+static-packages:
   pkg.installed:
     - name: git
 
@@ -9,15 +9,16 @@ web-static-packages:
 {% set user = info.get('user') %}
 
 {% if git %}
-web-static-{{ site }}-git:
+static-{{ site }}-git:
   git.latest:
     - name: {{ git }}
     - target: {{ root }}
+    - force_reset: true
     - require:
-        - pkg: web-static-packages
+        - pkg: static-packages
 {% endif %}
 
-web-static-{{ site }}-target:
+static-{{ site }}-target:
   file.directory:
     - name: {{ root }}
     - user: {{ user }}
@@ -26,13 +27,13 @@ web-static-{{ site }}-target:
     - makedirs: True
     - recurse: [user, group, mode]
 
-web-static-{{ site }}-hostname:
+static-{{ site }}-hostname:
   host.present:
     - ip: 127.0.0.1
     - name: {{ info.get('host') }}
 {% endfor %}
 
-web-static-hosts:
+static-hosts:
   file.managed:
     - name: /etc/nginx/sites-enabled/static
     - source: salt://web/files/static.nginx
@@ -43,10 +44,10 @@ web-static-hosts:
     - require:
         - pkg: web-packages
         {% for site, info in STATICS.iteritems() %}
-        - host: web-static-{{ site }}-hostname
-        - file: web-static-{{ site }}-target
+        - host: static-{{ site }}-hostname
+        - file: static-{{ site }}-target
         {% if info.get('git', None ) %}
-        - git: web-static-{{ site }}-git
+        - git: static-{{ site }}-git
         {% endif %}
         {% endfor %}
     - context:

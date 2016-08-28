@@ -1,6 +1,7 @@
 {% set DJANGOS = salt['pillar.get']('djangos', {}) %}
+{% if DJANGOS %}
 {% for project, info in DJANGOS.iteritems() %}
-web-django-{{ project }}-static:
+django-{{ project }}-static:
   file.directory:
     - name: {{ info.get('static') }}
     - user: {{ info.get('user') }}
@@ -9,13 +10,13 @@ web-django-{{ project }}-static:
     - makedirs: True
     - recurse: [user, group, mode]
 
-web-django-{{ project }}-hostname:
+django-{{ project }}-hostname:
   host.present:
     - ip: 127.0.0.1
     - name: {{ info.get('host') }}
 {% endfor %}
 
-web-django-hosts:
+django-hosts:
   file.managed:
     - name: /etc/nginx/sites-enabled/django
     - source: salt://web/files/django.nginx
@@ -28,5 +29,6 @@ web-django-hosts:
     - require:
         - pkg: web-packages
           {% for project, info in DJANGOS.iteritems() %}
-        - host: web-django-{{ project }}-hostname
+        - host: django-{{ project }}-hostname
           {% endfor %}
+{% endif %}

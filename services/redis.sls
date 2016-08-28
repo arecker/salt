@@ -1,3 +1,5 @@
+{% set djangos = pillar.get('djangos', {}) %}
+{% if djangos %}
 redis-packages:
   pkg.installed:
     - pkgs:
@@ -11,3 +13,4 @@ redis-service:
         - pkg: redis-packages
     - watch:
         - pkg: redis-packages
+{% endif %}
