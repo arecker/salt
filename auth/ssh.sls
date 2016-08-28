@@ -5,7 +5,7 @@ ssh-packages:
 ssh-config:
   file.managed:
     - name: /etc/ssh/sshd_config
-    - source: salt://auth/files/sshd_config.jinja
+    - source: salt://auth/files/sshd_config
     - template: jinja
     - user: root
     - group: root
