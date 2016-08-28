@@ -1,3 +1,5 @@
+{% set SSH_PORT = pillar.get('ssh-port', None) %}
+{% if SSH_PORT %}
 ssh-packages:
   pkg.installed:
     - name: openssh-server
@@ -13,7 +15,7 @@ ssh-config:
     - require:
         - pkg: ssh-packages
     - context:
-        PORT: {{ pillar.get('ssh_port', 22) }}
+        PORT: {{ SSH_PORT }}
 
 ssh-motd:
   file.managed:
@@ -34,3 +36,4 @@ ssh-service:
         - pkg: ssh-packages
         - file: ssh-config
         - file: ssh-motd
+{% endif %}
