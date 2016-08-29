@@ -6,7 +6,7 @@ container-docker-installed:
 
 {% for container, info in containers.iteritems() %}
 {% set image = info['image'] %}
-{% set volumes = info.get('binds') %}
+{% set volumes = info.get('volumes') %}
 {% set ports = info.get('ports') %}
 container-{{ container }}-pulled:
   cmd.run:
