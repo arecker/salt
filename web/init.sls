@@ -47,3 +47,7 @@ web-nginx-service:
         - file: web-nginx-config
         - file: web-nginx-default-page
         - file: web-nginx-default-host
+
+web-nginx-reload:
+  cmd.run:
+    - name: nginx -s reload

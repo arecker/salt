@@ -1,7 +1,7 @@
 {% for site, info in statics.iteritems() %}
 {% set redirects = info.get('redirects', {}) %}
+{% set proxies = info.get('proxies', {}) %}
 # {{ site }} server configuration
-#
 server {
     server_name {{ info.get('host') }};
     root {{ info.get('root') }};
@@ -10,6 +10,15 @@ server {
     {% for location, target in redirects.iteritems() %}
     location = {{ location }} {
         return 301 {{ target }};
+    }
+    {% endfor %}
+    {% for location, target in proxies.iteritems() %}
+    location {{ location }} {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass {{ target }};
+        break;
     }
     {% endfor %}
     location / {
