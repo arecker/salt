@@ -5,7 +5,7 @@ nginx-package:
 nginx-config:
   file.managed:
     - name: /etc/nginx/nginx.conf
-    - source: salt://files/nginx.txt
+    - source: salt://files/nginx.conf
     - user: root
     - group: root
     - mode: 640
@@ -49,7 +49,7 @@ default-www:
 nginx-sites-enabled:
   file.managed:
     - name: /etc/nginx/sites-enabled/default
-    - source: salt://files/default
+    - source: salt://files/default.conf
     - template: jinja
     - user: root
     - group: root

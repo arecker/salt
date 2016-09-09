@@ -59,7 +59,7 @@ ssh-packages:
 ssh-config:
   file.managed:
     - name: /etc/ssh/sshd_config
-    - source: salt://files/sshd.txt
+    - source: salt://files/sshd.conf
     - template: jinja
     - user: root
     - group: root

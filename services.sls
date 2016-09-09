@@ -9,7 +9,7 @@ db-installed:
 db-access:
   file.managed:
     - name: /etc/postgresql/9.4/main/pg_hba.conf
-    - source: salt://files/pghba.txt
+    - source: salt://files/pghba.conf
     - user: postgres
     - group: postgres
     - mode: 644
@@ -19,7 +19,7 @@ db-access:
 db-config:
   file.managed:
     - name: /etc/postgresql/9.4/main/postgresql.conf
-    - source: salt://files/postgresqlconf.txt
+    - source: salt://files/pg.conf
     - user: postgres
     - group: postgres
     - mode: 644
@@ -65,19 +65,6 @@ docker-installed:
         - postgres_user: db-{{ db }}-user
         - postgres_database: db-{{ db }}-db
         {% endfor %}
-
-docker-redis-pulled:
-  cmd.run:
-    - name: docker pull redis
-    - require:
-        - cmd: docker-installed
-
-docker-redis-running:
-  cmd.run:
-    - name: docker run --name redis-instance --restart always -d redis redis-server --appendonly yes
-    - unless: docker inspect --format={{ '"{{ .State.Running }}"' }} redis-instance
-    - require:
-        - cmd: docker-redis-pulled
 
 {% for container, info in pillar.get('containers', {}).iteritems() %}
 docker-{{ container }}-pulled:
