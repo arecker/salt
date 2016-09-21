@@ -5,6 +5,8 @@ db-installed:
     - pkgs:
         - postgresql-9.4
         - postgresql-contrib-9.4
+        - postgresql-server-dev-9.4
+        - python-dev
 
 db-access:
   file.managed:

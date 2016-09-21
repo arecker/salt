@@ -67,6 +67,7 @@ nginx-service:
     - watch:
         - pkg: nginx-package
         - file: nginx-config
+        - file: nginx-sites-enabled
         - file: default-www
         {% for site, info in pillar.get('sites', {}).iteritems() %}
         - file: {{ site }}-www
