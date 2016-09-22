@@ -1,5 +1,4 @@
 {% set databases = pillar.get('databases', {}) %}
-{% if databases %}
 db-installed:
   pkg.installed:
     - pkgs:
@@ -55,7 +54,6 @@ db-{{ db }}-db:
     - name: {{ db }}
     - owner: {{ info['user'] }}
 {% endfor %}
-{% endif %}
 
 docker-installed:
   cmd.run:
