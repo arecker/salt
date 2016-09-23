@@ -24,6 +24,12 @@ server {
         return 301 {{ target }};
     }
     {% endfor %}
+
+    {% for location, target in info.get('aliases', {}).iteritems() %}
+    location {{ location }} {
+        alias {{ target }};
+    }
+    {% endfor %}
     
     {% for location, target in info.get('proxies', {}).iteritems() %}
     location {{ location }} {
