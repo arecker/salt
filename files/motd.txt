@@ -1,5 +1,0 @@
-  ┌────
-  │ This machine is managed by salt
-  │ Avoid manual configuration, you dillweed
-  │ https://github.com/arecker/salt/
-  └────
