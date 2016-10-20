@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: salt_solo
+  is_file_root: True
+  pillars:
+    top.sls:
+      base:
+        '*':
+          - kitchen
+    kitchen.sls:
+      hello: world
+  state_top:
+    base:
+      '*':
+        - system
+platforms:
+  - name: debian-8.6
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
