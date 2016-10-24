@@ -5,26 +5,13 @@ driver:
 provisioner:
   name: salt_solo
   is_file_root: True
+  pillars-from-files:
+    kitchen.sls: pillar.example
   pillars:
     top.sls:
       base:
         '*':
           - kitchen
-    kitchen.sls:
-      users:
-        jim:
-          fullname: Jim Bobson
-          ssh:
-            present:
-              - i-am-jims-key
-              - i-am-jims-other-key
-        joe:
-          shell: /bin/zsh
-          ssh:
-            present:
-              - i-am-joes-key
-            absent:
-              - i-am-no-longer-joes-key
   state_top:
     base:
       '*':

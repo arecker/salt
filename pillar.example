@@ -1,0 +1,14 @@
+users:
+  jim:
+    fullname: Jim Bobson
+    ssh:
+      present:
+        - i-am-jims-key
+        - i-am-jims-other-key
+  joe:
+    shell: /bin/zsh
+    ssh:
+      present:
+        - i-am-joes-key
+      absent:
+        - i-am-no-longer-joes-key
