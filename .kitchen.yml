@@ -5,6 +5,8 @@ driver:
 provisioner:
   name: salt_solo
   is_file_root: True
+  grains:
+    vagrant: true
   pillars-from-files:
     kitchen.sls: pillar.example
   pillars:
