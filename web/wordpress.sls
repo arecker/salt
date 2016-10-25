@@ -28,7 +28,7 @@ wordpress-{{ site }}-root:
 wordpress-{{ site }}-config:
   file.managed:
     - name: {{ info['root'] + '/wp-config.php' }}
-    - source: salt://web/files/wp-config.php.jinja
+    - source: salt://web/files/wordpress-config.php.jinja
     - user: {{ info.get('user', 'www-data') }}
     - group: www-data
     - mode: 440
