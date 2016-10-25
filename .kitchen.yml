@@ -18,6 +18,8 @@ provisioner:
     base:
       '*':
         - system
+        - services
+        - web
 platforms:
   - name: debian-8.6
   - name: ubuntu-14.04

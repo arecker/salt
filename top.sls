@@ -1,3 +1,5 @@
 base:
   '*':
     - system
+    - services
+    - web
