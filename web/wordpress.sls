@@ -24,6 +24,19 @@ wordpress-{{ site }}-root:
     - recurse: [user, group, mode]
     - require:
         - cmd: wordpress-{{ site }}-tar
+
+wordpress-{{ site }}-config:
+  file.managed:
+    - name: {{ info['root'] + '/wp-config.php' }}
+    - source: salt://web/files/wp-config.php.jinja
+    - user: {{ info.get('user', 'www-data') }}
+    - group: www-data
+    - mode: 440
+    - template: jinja
+    - context:
+        DB_NAME: {{ info['db_name'] }}
+        DB_USER: {{ info['db_user'] }}
+        DB_PASS: {{ info['db_pass'] }}
 {% endfor %}
 
 {% endif %}

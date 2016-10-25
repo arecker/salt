@@ -18,3 +18,8 @@
     GROUP=$(stat -c "%G" /var/www/joeblog/index.php)
     [ "$GROUP" = "www-data" ]
 }
+
+@test "wordpress config exists" {
+    run test -f /var/www/joeblog/wp-config.php
+    [ $status -eq 0 ]
+}

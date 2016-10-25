@@ -36,3 +36,9 @@ wordpress:
     db_name: joeblog
     db_user: joe
     db_pass: joes-db-password-secret
+
+nginx:
+  joeblog:
+    php: True
+    root: /var/www/joeblog
+    host: joesblog.com
