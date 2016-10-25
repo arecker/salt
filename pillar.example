@@ -13,6 +13,12 @@ users:
       absent:
         - i-am-no-longer-joes-key
 
+git:
+  bob:
+    url: https://github.com/arecker/bobrosssearch.com
+    target: /src/bob
+    user: joe
+
 mysql:
   databases:
     - jimdb
