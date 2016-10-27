@@ -1,5 +1,6 @@
 users:
   jim:
+    sudo: True
     fullname: Jim Bobson
     ssh:
       present:

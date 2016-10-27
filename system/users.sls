@@ -18,6 +18,10 @@ users-{{ user }}:
     - name: {{ user }}
     - fullname: {{ info.get('fullname', user) }}
     - shell: {{ info.get('shell', '/bin/bash') }}
+      {% if info.get('sudo', False) %}
+    - groups:
+        - sudo
+      {% endif %}
     - require:
         - pkg: users-packages
 

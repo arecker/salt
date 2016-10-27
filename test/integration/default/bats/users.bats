@@ -19,3 +19,10 @@
     run which sudo
     [ "$status" -eq 0 ]
 }
+
+@test "users: sudo priveledges have been given" {
+    run groups jim | tr ' ' '\n' | grep sudo
+    [ "$status" -eq 0 ]
+    run groups joe | tr ' ' '\n' | grep sudo
+    [ "$status" -eq 1 ]
+}
