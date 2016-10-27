@@ -21,8 +21,8 @@
 }
 
 @test "users: sudo priveledges have been given" {
-    run groups jim | tr ' ' '\n' | grep sudo
-    [ "$status" -eq 0 ]
-    run groups joe | tr ' ' '\n' | grep sudo
-    [ "$status" -eq 1 ]
+    result=$(groups jim | tr ' ' '\n' | grep 'sudo' | wc -l)
+    [ "$result" -eq 1 ]
+    result=$(groups joe | tr ' ' '\n' | grep 'sudo' | wc -l)
+    [ "$result" -eq 0 ]
 }
