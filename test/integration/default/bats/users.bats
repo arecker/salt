@@ -20,9 +20,13 @@
     [ "$status" -eq 0 ]
 }
 
-@test "users: sudo priveledges have been given" {
+@test "users: groups have been assigned correctly" {
     result=$(groups jim | tr ' ' '\n' | grep 'sudo' | wc -l)
     [ "$result" -eq 1 ]
+    result=$(groups jim | tr ' ' '\n' | grep 'www-data' | wc -l)
+    [ "$result" -eq 1 ]
     result=$(groups joe | tr ' ' '\n' | grep 'sudo' | wc -l)
+    [ "$result" -eq 0 ]
+    result=$(groups joe | tr ' ' '\n' | grep 'www-data' | wc -l)
     [ "$result" -eq 0 ]
 }

@@ -1,7 +1,7 @@
 users:
   jim:
-    sudo: True
     fullname: Jim Bobson
+    groups: [sudo, www-data]
     ssh:
       present:
         - i-am-jims-key
