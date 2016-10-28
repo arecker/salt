@@ -4,8 +4,8 @@
     which git
 }
 
-@test "git: test project cloned" {
-    test -d /src/bob
+@test "git: bob project cloned" {
+    test -d /var/www/bob
 }
 
 @test "git: test project has correct owner" {

@@ -17,7 +17,7 @@ users:
 git:
   bob:
     url: https://github.com/arecker/bobrosssearch.com
-    target: /src/bob
+    target: /var/www/bob
     user: joe
 
 mysql:
@@ -49,3 +49,6 @@ nginx:
     php: True
     root: /var/www/joeblog
     host: joesblog.com
+  bob:
+    root: /var/www/bob
+    host: bobrosssearch.local

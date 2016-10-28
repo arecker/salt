@@ -40,6 +40,11 @@ nginx-sites:
         - file: nginx-default
         - file: nginx-config
 
+nginx-hosts:
+  host.present:
+    - ip: 127.0.0.1
+    - names: [ {% for site, info in nginx.iteritems() %} {{ info['host'] }}, {% endfor %} ]
+
 nginx-service:
   service.running:
     - name: nginx
