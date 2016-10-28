@@ -9,5 +9,5 @@
 }
 
 @test "git: test project has correct owner" {
-    [ $(stat -c '%U' /src/bob) = "joe" ]
+    [ $(stat -c '%U' /var/www/bob) = "joe" ]
 }
