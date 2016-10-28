@@ -5,7 +5,11 @@ nginx-package:
   pkg.installed:
     - pkgs:
         - nginx
+        - php5
+        - php5-curl
         - php5-fpm
+        - php5-gd
+        - php5-mysql
 
 nginx-config:
   file.managed:
