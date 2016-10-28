@@ -3,7 +3,9 @@
 {% if nginx %}
 nginx-package:
   pkg.installed:
-    - name: nginx
+    - pkgs:
+        - nginx
+        - php5-fpm
 
 nginx-config:
   file.managed:
