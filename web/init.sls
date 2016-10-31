@@ -1,3 +1,4 @@
 include:
-  - web.wordpress
   - web.nginx
+  - web.php
+  - web.wordpress

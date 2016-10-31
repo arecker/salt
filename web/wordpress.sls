@@ -25,6 +25,16 @@ wordpress-{{ site }}-root:
     - require:
         - cmd: wordpress-{{ site }}-tar
 
+wordpress-{{ site }}-uploads:
+  file.directory:
+    - makedirs: True
+    - name: {{ info['root'] }}/wp-content/uploads
+    - user: {{ info.get('user', 'www-data') }}
+    - group: www-data
+    - recurse: [user, group, mode]
+    - require:
+        - cmd: wordpress-{{ site }}-tar
+
 wordpress-{{ site }}-config:
   file.managed:
     - name: {{ info['root'] + '/wp-config.php' }}

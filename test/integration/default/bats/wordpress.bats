@@ -23,3 +23,12 @@
     run test -f /var/www/joeblog/wp-config.php
     [ $status -eq 0 ]
 }
+
+@test "wordpress: uploads dir should exist" {
+    run test -d /var/www/joeblog/wp-content/uploads
+    [ $status -eq 0 ]
+}
+
+@test "wordpress: site should be redirecting to install page" {
+    [[ $(curl --silent -L joesblog.com | grep "<title>WordPress &rsaquo; Installation</title>") ]]
+}
