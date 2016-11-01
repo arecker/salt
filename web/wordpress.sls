@@ -1,4 +1,9 @@
 {% set wordpress = pillar.get('wordpress', {}) %}
+
+wordpress-packages:
+  pkg.installed:
+    - name: unzip
+
 {% if wordpress %}
 wordpress-src:
   file.managed:
@@ -34,9 +39,10 @@ wordpress-{{ site }}-root:
 wordpress-{{ site }}-ssh-plugin:
   cmd.run:
     - runas: {{ info.get('user', 'www-data') }}
-    - name: unzip /opt/ssh-sftp-updater-support.0.7.1.zip .
+    - name: unzip /opt/ssh-sftp-updater-support.0.7.1.zip
     - cwd: {{ info['root'] }}/wp-content/plugins
     - require:
+        - pkg: wordpress-packages
         - file: wordpress-ssh-src
 
 wordpress-{{ site }}-uploads:
