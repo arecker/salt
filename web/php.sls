@@ -6,7 +6,11 @@ php-package:
         - php5-fpm
         - php5-gd
         - php5-mysql
+        {% if grains['os'] == 'Ubuntu' %}
+        - libssh2-php
+        {% elif grains['os'] == 'Debian' %}
         - php5-ssh2
+        {% endif %}
 
 php-info:
   file.managed:
