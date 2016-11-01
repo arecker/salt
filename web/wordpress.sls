@@ -20,7 +20,7 @@ wordpress-{{ site }}-root:
     - makedirs: True
     - name: {{ info['root'] }}
     - user: {{ info.get('user', 'www-data') }}
-    - group: www-data
+    - group: {{ info.get('user', 'www-data') }}
     - recurse: [user, group, mode]
     - require:
         - cmd: wordpress-{{ site }}-tar

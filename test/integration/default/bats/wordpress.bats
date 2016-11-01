@@ -16,7 +16,7 @@
     USER=$(stat -c "%U" /var/www/joeblog/index.php)
     [ "$USER" = "joe" ]
     GROUP=$(stat -c "%G" /var/www/joeblog/index.php)
-    [ "$GROUP" = "www-data" ]
+    [ "$GROUP" = "joe" ]
 }
 
 @test "wordpress: config should exist" {
@@ -28,6 +28,14 @@
     run test -d /var/www/joeblog/wp-content/uploads
     [ $status -eq 0 ]
 }
+
+@test "wordpress: uploads dir should have correct permissions" {
+    USER=$(stat -c "%U" /var/www/joeblog/wp-content/uploads)
+    [ "$USER" = "joe" ]
+    GROUP=$(stat -c "%G" /var/www/joeblog/wp-content/uploads)
+    [ "$GROUP" = "www-data" ]
+}
+
 
 @test "wordpress: site should be redirecting to install page" {
     [[ $(curl --silent -L joesblog.com | grep "<title>WordPress &rsaquo; Installation</title>") ]]
