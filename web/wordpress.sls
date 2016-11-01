@@ -49,4 +49,6 @@ wordpress-{{ site }}-config:
         DB_PASS: {{ info['db_pass'] }}
 {% endfor %}
 
+# TODO: https://www.digitalocean.com/community/tutorials/how-to-configure-secure-updates-and-installations-in-wordpress-on-ubuntu
+
 {% endif %}
