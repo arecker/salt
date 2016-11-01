@@ -6,6 +6,7 @@ php-package:
         - php5-fpm
         - php5-gd
         - php5-mysql
+        - php5-ssh2
 
 php-info:
   file.managed:

@@ -1,9 +1,5 @@
 {% set wordpress = pillar.get('wordpress', {}) %}
 
-wordpress-packages:
-  pkg.installed:
-    - name: unzip
-
 {% if wordpress %}
 wordpress-src:
   file.managed:
@@ -11,13 +7,6 @@ wordpress-src:
     - name: /opt/wordpress.tar.gz
     - source: https://wordpress.org/wordpress-4.6.1.tar.gz
     - source_hash: md5=ca0b978fd702eac033830ca2d0784b79
-
-wordpress-ssh-src:
-  file.managed:
-    - makedirs: True
-    - name: /opt/
-    - source: https://downloads.wordpress.org/plugin/ssh-sftp-updater-support.0.7.1.zip
-    - source_hash: md5=803fd37b61a28f1d671bae51e52db0bb
 
 {% for site, info in wordpress.iteritems() %}
 wordpress-{{ site }}-tar:
@@ -35,15 +24,6 @@ wordpress-{{ site }}-root:
     - recurse: [user, group, mode]
     - require:
         - cmd: wordpress-{{ site }}-tar
-
-wordpress-{{ site }}-ssh-plugin:
-  cmd.run:
-    - runas: {{ info.get('user', 'www-data') }}
-    - name: unzip /opt/ssh-sftp-updater-support.0.7.1.zip
-    - cwd: {{ info['root'] }}/wp-content/plugins
-    - require:
-        - pkg: wordpress-packages
-        - file: wordpress-ssh-src
 
 wordpress-{{ site }}-uploads:
   file.directory:
