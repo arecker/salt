@@ -11,3 +11,7 @@
 @test "php: ssh2 module loaded" {
     [[ $(php -m | grep ssh2) ]]
 }
+
+@test "php: mysql module loaded" {
+    [[ $(php -m | grep mysql) ]]
+}
