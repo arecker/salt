@@ -1,0 +1,5 @@
+#+TITLE: Salt
+
+[[https://travis-ci.org/arecker/salt][file:https://travis-ci.org/arecker/salt.svg?branch=master]]
+
+These are my salt scripts, man.

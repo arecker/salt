@@ -7,6 +7,11 @@ define('DB_HOST', 'localhost');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
+define('FTP_PUBKEY','/home/{{ USER }}/.ssh/wordpress.pub');
+define('FTP_PRIKEY','/home/{{ USER }}/.ssh/wordpress');
+define('FTP_USER','{{ USER }}');
+define('FTP_HOST','127.0.0.1:22');
+
 $table_prefix  = 'wp_';
 
 define('WP_DEBUG', false);

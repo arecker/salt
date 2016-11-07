@@ -33,6 +33,7 @@ def handshake():
 
 @task
 def master():
+    sudo('passwd')
     add_repo()
     sudo('apt-get install -y salt-master')
     write_file(target='/etc/salt/master', content=MASTER_CONFIG)
@@ -44,6 +45,7 @@ def master():
 
 @task
 def minion(id=None, master='salt.alexrecker.com'):
+    sudo('passwd')
     add_repo()
     sudo('apt-get install -y salt-minion')
 
@@ -58,4 +60,3 @@ def minion(id=None, master='salt.alexrecker.com'):
     )
 
     sudo('systemctl restart salt-minion')
-    sudo('mkdir -p /srv/pillar')

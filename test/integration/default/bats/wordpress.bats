@@ -14,9 +14,9 @@
 
 @test "wordpress: site root should have correct permissions" {
     USER=$(stat -c "%U" /var/www/joeblog/index.php)
-    [ "$USER" = "joe" ]
+    [ "$USER" = "www-data" ]
     GROUP=$(stat -c "%G" /var/www/joeblog/index.php)
-    [ "$GROUP" = "joe" ]
+    [ "$GROUP" = "www-data" ]
 }
 
 @test "wordpress: config should exist" {
@@ -31,7 +31,7 @@
 
 @test "wordpress: uploads dir should have correct permissions" {
     USER=$(stat -c "%U" /var/www/joeblog/wp-content/uploads)
-    [ "$USER" = "joe" ]
+    [ "$USER" = "www-data" ]
     GROUP=$(stat -c "%G" /var/www/joeblog/wp-content/uploads)
     [ "$GROUP" = "www-data" ]
 }
@@ -39,4 +39,26 @@
 
 @test "wordpress: site should be redirecting to install page" {
     [[ $(curl --silent -L joesblog.com | grep "<title>WordPress &rsaquo; Installation</title>") ]]
+}
+
+@test "wordpress: ssh keys should exist" {
+    run test -f /home/joe/.ssh/wordpress
+    [ $status -eq 0 ]
+    run test -f /home/joe/.ssh/wordpress.pub
+    [ $status -eq 0 ]
+}
+
+@test "wordpress: ssh keys should have correct permissions" {
+    USER=$(stat -c "%U" /home/joe/.ssh/wordpress)
+    [ "$USER" = "joe" ]
+    GROUP=$(stat -c "%G" /home/joe/.ssh/wordpress)
+    [ "$GROUP" = "www-data" ]
+    USER=$(stat -c "%U" /home/joe/.ssh/wordpress.pub)
+    [ "$USER" = "joe" ]
+    GROUP=$(stat -c "%G" /home/joe/.ssh/wordpress.pub)
+    [ "$GROUP" = "www-data" ]
+}
+
+@test "wordpress: config should have ssh key path" {
+    [[ $(cat /var/www/joeblog/wp-config.php | grep '/home/joe/.ssh/wordpress.pub') ]]
 }

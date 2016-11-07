@@ -1,5 +1,6 @@
 users:
   jim:
+    password: $1$1aVaZ0DK$Malr7Jsa52FrwcIfOnk.m/
     fullname: Jim Bobson
     groups: [sudo, www-data]
     ssh:
@@ -7,6 +8,7 @@ users:
         - i-am-jims-key
         - i-am-jims-other-key
   joe:
+    password: $1$5N/6zVLS$WJV55JWCNpfJidKFnd7/81
     shell: /bin/zsh
     ssh:
       present:

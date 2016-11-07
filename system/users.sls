@@ -17,6 +17,7 @@ users-{{ user }}:
   user.present:
     - name: {{ user }}
     - fullname: {{ info.get('fullname', user) }}
+    - password: {{ info['password'] }}
     - shell: {{ info.get('shell', '/bin/bash') }}
     - groups: {{ info.get('groups', []) }}
     - require:
