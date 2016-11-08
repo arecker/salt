@@ -38,8 +38,8 @@ server {
 server {
     {% if ssl %}
     listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/alexrecker.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/alexrecker.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ info['host'] }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ info['host'] }}/privkey.pem;
     {% else %}
     listen 80;
     {% endif %}
