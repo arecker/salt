@@ -36,7 +36,7 @@ wordpress-{{ site }}-uploads:
     - require:
         - cmd: wordpress-{{ site }}-tar
 
-wordpress-{{ site }}-sshkey:
+wordpress-{{ site }}-ssh-create:
   cmd.run:
     - name: |
         ssh-keygen -t rsa -b 4096 -N '' -f ~/.ssh/wordpress && \
@@ -44,12 +44,21 @@ wordpress-{{ site }}-sshkey:
     - runas: {{ info['user'] }}
     - unless: test -f ~/.ssh/wordpress
 
-wordpress-{{ site }}-sshpermissions:
-  cmd.run:
-    - name: chown {{ info['user'] }}:www-data .ssh/wordpress*
-    - cwd: /home/{{ info['user'] }}
+wordpress-{{ site }}-ssh-private-permission:
+  file.managed:
+    - name: /home/{{ info['user'] }}/.ssh/wordpress
+    - user: {{ info['user'] }}
+    - group: www-data
     - require:
-        - cmd: wordpress-{{ site }}-sshkey
+        - cmd: wordpress-{{ site }}-ssh-create
+
+wordpress-{{ site }}-ssh-public-permission:
+  file.managed:
+    - name: /home/{{ info['user'] }}/.ssh/wordpress.pub
+    - user: {{ info['user'] }}
+    - group: www-data
+    - require:
+        - cmd: wordpress-{{ site }}-ssh-create
 
 wordpress-{{ site }}-config:
   file.managed:
@@ -65,7 +74,4 @@ wordpress-{{ site }}-config:
         DB_PASS: {{ info['db_pass'] }}
         USER: {{ info['user'] }}
 {% endfor %}
-
-# TODO: https://www.digitalocean.com/community/tutorials/how-to-configure-secure-updates-and-installations-in-wordpress-on-ubuntu
-
 {% endif %}
