@@ -18,13 +18,31 @@ server {
         include fastcgi_params;
     }
 }
-
+    
 {% for site, info in sites.iteritems() %}
 {% set php = info.get('php', False) %}
+{% set ssl = info.get('ssl', False) %}
+
+{% if ssl %}
+# {{ site }} https redirect
+#
+server {
+       listen         80;
+       server_name    {{ info['host'] }};
+       return         301 https://$server_name$request_uri;
+}
+{% endif %}
+
 # {{ site }} server configuration
 #
 server {
+    {% if ssl %}
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/alexrecker.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/alexrecker.com/privkey.pem;
+    {% else %}
     listen 80;
+    {% endif %}
     root {{ info['root'] }};
     index index.html index.htm {% if php %}index.php{% endif %};
     server_name {{ info['host'] }};
@@ -47,5 +65,9 @@ server {
 	include fastcgi_params;
     }
     {% endif %}
+
+    location ~ /.well-known {
+        allow all;
+    }
 }
 {% endfor %}
