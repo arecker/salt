@@ -1,6 +1,6 @@
 redis-pkg:
   pkg.installed:
-    - pkg:
+    - pkgs:
         - redis-server
         - redis-tools
 
@@ -8,5 +8,5 @@ redis-service:
   service.running:
     - name: redis
     - enable: True
-    - watch:
+    - require:
         - pkg: redis-pkg
