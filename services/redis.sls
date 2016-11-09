@@ -7,7 +7,7 @@ redis-pkg:
 
 redis-service:
   service.running:
-    - name: redis
+    - name: redis-server
     - enable: True
     - require:
         - pkg: redis-pkg
