@@ -1,3 +1,5 @@
+redis: True
+
 users:
   jim:
     password: $1$1aVaZ0DK$Malr7Jsa52FrwcIfOnk.m/
