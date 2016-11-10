@@ -3,7 +3,6 @@ redis-pkg:
   pkg.installed:
     - pkgs:
         - redis-server
-        - redis-tools
 
 redis-service:
   service.running:
