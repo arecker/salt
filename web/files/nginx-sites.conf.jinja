@@ -47,6 +47,39 @@ server {
     index index.html index.htm {% if php %}index.php{% endif %};
     server_name {{ info['host'] }};
 
+    {% for location, target in info.get('redirects', {}).iteritems() %}
+    location = {{ location }} {
+        return 301 {{ target }};
+    }
+    {% endfor %}
+
+    {% for location, target in info.get('aliases', {}).iteritems() %}
+    location {{ location }} {
+        alias {{ target }};
+    }
+    {% endfor %}
+
+    {% for location, target in info.get('proxies', {}).iteritems() %}
+    location {{ location }} {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass {{ target }};
+        break;
+    }
+    {% endfor %}
+
+    {% if info.get('rootproxy') %}
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        if (!-f $request_filename) {
+            proxy_pass {{ info['rootproxy'] }};
+            break;
+        }
+    }
+    {% else %}
     location / {
 	{% if info.get('php', False) %}
 	try_files $uri $uri/ /index.php?q=$uri&$args;
@@ -54,6 +87,7 @@ server {
 	try_files $uri $uri/ =404;
 	{% endif %}
     }
+    {% endif %}
 
     {% if php %}
     location ~ \.php$ {
