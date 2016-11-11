@@ -3,3 +3,4 @@ include:
   - web.php
   - web.wordpress
   - web.ssl
+  - web.hosts

@@ -1,25 +1,28 @@
 {% set postgres = pillar.get('postgres', {}) %}
+{% if postgres %}
 
-# TODO: yuck
 {% if grains['os'] == 'Ubuntu' %}
-{% set postgres_version = '9.3' %}
-{% else %}
-{% set postgres_version = '9.4' %}
+postgres-ppa:
+  pkgrepo.managed:
+    - name: deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
+    - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
 {% endif %}
 
-
-{% if postgres %}
 postgres-pkgs:
   pkg.installed:
     - pkgs:
-        - postgresql-{{ postgres_version }}
-        - postgresql-contrib-{{ postgres_version }}
-        - postgresql-server-dev-{{ postgres_version }}
+        - postgresql-9.4
+        - postgresql-contrib-9.4
+        - postgresql-server-dev-9.4
         - python-dev
+    {% if grains['os'] == 'Ubuntu' %}
+    - require:
+        - pkgrepo: postgres-ppa
+    {% endif %}
 
 postgres-access:
   file.managed:
-    - name: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    - name: /etc/postgresql/9.4/main/pg_hba.conf
     - source: salt://services/files/pghba.conf
     - user: postgres
     - group: postgres
@@ -29,7 +32,7 @@ postgres-access:
 
 postgres-config:
   file.managed:
-    - name: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+    - name: /etc/postgresql/9.4/main/postgresql.conf
     - source: salt://services/files/pg.conf
     - user: postgres
     - group: postgres

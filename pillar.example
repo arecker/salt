@@ -85,3 +85,7 @@ nginx:
   bob:
     root: /var/www/bob
     host: bobrosssearch.local
+
+hosts:
+  present:
+    extrahost: 8.8.8.8
