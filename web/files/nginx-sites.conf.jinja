@@ -44,7 +44,7 @@ server {
     listen 80;
     {% endif %}
     root {{ info['root'] }};
-    index index.html index.htm {% if php %}index.php{% endif %};
+    index {% if php %}index.php{% endif %} index.html index.htm;
     server_name {{ info['host'] }};
 
     {% for location, target in info.get('redirects', {}).iteritems() %}
