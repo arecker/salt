@@ -58,6 +58,11 @@ mysql:
       grants:
         joeblog: all privileges
 
+postgres:
+  moolah:
+    user: moolah
+    password: moolahpassword
+
 wordpress:
   joeblog:
     user: joe
