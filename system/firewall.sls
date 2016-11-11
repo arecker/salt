@@ -78,6 +78,18 @@ firewall-rule-https:
     - require:
         - iptables: firewall-policy-input
 
+{% for key, info in salt['pillar.get']('firewall', {}).iteritems() %}
+firewall-{{ key }}:
+  iptables.append:
+    - chain: {{ info['chain'] }}
+    - proto: {{ info['proto'] }}
+    - state: {{ info['state'] }}
+    - dport: {{ info['dport'] }}
+    - jump: {{ info['jump'] }}
+    - require:
+        - iptables: firewall-policy-input
+{% endfor %}
+
 {% if salt['grains.get']('vagrant', False) %}
 firewall-rule-vagrant:
   iptables.append:

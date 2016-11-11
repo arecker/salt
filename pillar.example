@@ -1,3 +1,17 @@
+firewall:
+  salt-master-1:
+    chain: INPUT
+    proto: TCP
+    state: new
+    dport: 4505
+    jump: ACCEPT
+  salt-master-2:
+    chain: INPUT
+    proto: TCP
+    state: new
+    dport: 4506
+    jump: ACCEPT
+
 redis: True
 
 users:
