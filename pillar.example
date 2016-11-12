@@ -77,16 +77,6 @@ virtualenvs:
     root: /home/joe/.virtualenvs/random.png
     requirements: /home/joe/git/random.png/requirements.txt
 
-systemd:
-  random.png:
-    user: joe
-    group: joe
-    dir: /home/joe/git/random.png
-    start: /home/joe/.virtualenvs/random.png/bin/python server.py
-    environment:
-      - images=/home/joe/images
-      - port=8001
-
 nginx:
   joeblog:
     php: True
