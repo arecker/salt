@@ -5,3 +5,4 @@ include:
   - services.postgres
   - services.redis
   - services.virtualenv
+  - services.systemd
