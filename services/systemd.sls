@@ -23,6 +23,7 @@ systemd-{{ job }}-file:
         ENVIRONMENT: {{ info.get('environment', []) }}
         WORKING_DIR: {{ info.get('dir', None) }}
         EXEC_START: {{ info['start'] }}
+        PRE_START: {{ info.get('prestart', []) }}
 
 systemd-{{ job }}-service:
   service.running:

@@ -9,6 +9,9 @@ User={{ USER }}
 {% for env in ENVIRONMENT %}
 Environment="{{ env }}"
 {% endfor %}
+{% for command in PRE_START %}
+ExecStartPre={{ command }}
+{% endfor %}
 ExecStart={{ EXEC_START }}
 
 [Install]
