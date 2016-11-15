@@ -18,6 +18,9 @@ git-{{ project }}-repo:
     - name: {{ info['url'] }}
     - target: {{ info['target'] }}
     - user: {{ info.get('user', 'root') }}
+    {% if info.get('identity', False) %}
+    - identity: {{ info['identity'] }}
+    {% endif %}
     - require:
       - pkg: git-package
 {% endfor %}
