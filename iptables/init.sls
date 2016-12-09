@@ -22,7 +22,7 @@ firewall-policy-output:
         - iptables: firewall-flush
 
 firewall-rule-established:
-  iptables.chain_present:
+  iptables.append:
     - chain: INPUT
     - connstate: ESTABLISHED,RELATED
     - jump: ACCEPT
