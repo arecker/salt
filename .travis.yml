@@ -17,7 +17,7 @@ before_install:
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
 
 script:
-  - bundle exec kitchen test ubuntu-14.04
+  - bundle exec kitchen test ubuntu
 
 branches:
   only:
