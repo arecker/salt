@@ -1,85 +1,53 @@
-firewall-package:
+{% from "iptables/map.jinja" import iptables with context %}
+iptables-package:
   pkg.installed:
-    - pkgs: [ iptables ]
+    - pkgs: {{ iptables.packages }}
 
-firewall-flush:
-  iptables.flush:
-    - require:
-        - pkg: firewall-package
-
-firewall-policy-input:
+iptables-policy-input:
   iptables.set_policy:
     - chain: INPUT
     - policy: DROP
     - require:
-        - iptables: firewall-flush
+        - pkg: iptables-package
 
-firewall-policy-output:
+iptables-policy-output:
   iptables.set_policy:
     - chain: OUTPUT
     - policy: ACCEPT
     - require:
-        - iptables: firewall-flush
+        - pkg: iptables-package
 
-firewall-rule-established:
+{% for name, info in iptables.get('rules', {}).iteritems() %}
+{% set connstate = info.get('connstate', False) %}
+{% set dport = info.get('dport', False) %}
+{% set proto = info.get('proto', False) %}
+{% set source = info.get('source', False) %}
+iptables-rule-{{ name }}:
   iptables.append:
-    - chain: INPUT
-    - connstate: ESTABLISHED,RELATED
-    - jump: ACCEPT
+    - chain: {{ info['chain'] }}
+    {% if connstate %}
+    - connstate: {{ connstate }}
+    {% endif %}
+    - jump: {{ info['jump'] }}
+    {% if source %}
+    - source: {{ source }}
+    {% endif %}
+    {% if dport %}
+    - dport: {{ dport }}
+    {% endif %}
+    {% if proto %}
+    - proto: {{ proto }}
+    {% endif %}
     - save: True
+    - unless:
+        - iptables: iptables-rule-{{ name }}-present
     - require:
-        - iptables: firewall-policy-input
+        - iptables: iptables-policy-input
+        - iptables: iptables-policy-output
+{% endfor %}
 
-firewall-rule-local:
-  iptables.append:
-    - chain: INPUT
-    - source: 127.0.0.1
-    - jump: ACCEPT
-    - save: True
-    - require:
-        - iptables: firewall-policy-input
-
-firewall-rule-docker:
-  iptables.append:
-    - chain: INPUT
-    - source: 172.17.0.0/16
-    - jump: ACCEPT
-    - save: True
-    - require:
-        - iptables: firewall-policy-input
-
-firewall-rule-ssh:
-  iptables.append:
-    - chain: INPUT
-    - proto: TCP
-    - dport: 22
-    - jump: ACCEPT
-    - save: True
-    - require:
-        - iptables: firewall-policy-input
-
-firewall-rule-http:
-  iptables.append:
-    - chain: INPUT
-    - proto: TCP
-    - dport: 80
-    - jump: ACCEPT
-    - save: True
-    - require:
-        - iptables: firewall-policy-input
-
-firewall-rule-https:
-  iptables.append:
-    - chain: INPUT
-    - proto: TCP
-    - dport: 443
-    - jump: ACCEPT
-    - save: True
-    - require:
-        - iptables: firewall-policy-input
-
-{% for key, info in salt['pillar.get']('firewall', {}).iteritems() %}
-firewall-{{ key }}:
+{% for key, info in salt['pillar.get']('iptables', {}).iteritems() %}
+iptables-{{ key }}:
   iptables.append:
     - chain: {{ info['chain'] }}
     - proto: {{ info['proto'] }}
@@ -87,11 +55,11 @@ firewall-{{ key }}:
     - dport: {{ info['dport'] }}
     - jump: {{ info['jump'] }}
     - require:
-        - iptables: firewall-policy-input
+        - iptables: iptables-policy-input
 {% endfor %}
 
 {% if salt['grains.get']('vagrant', False) %}
-firewall-rule-vagrant:
+iptables-rule-vagrant:
   iptables.append:
     - chain: INPUT
     - proto: TCP
@@ -99,5 +67,5 @@ firewall-rule-vagrant:
     - jump: ACCEPT
     - save: True
     - require:
-        - iptables: firewall-policy-input
+        - iptables: iptables-policy-input
 {% endif %}

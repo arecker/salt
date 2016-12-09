@@ -1,0 +1,47 @@
+{% set iptables = salt['grains.filter_by']({
+    'default': {
+	'packages': ['iptables'],
+	'rules': {
+
+	    'established': {
+		'chain': 'INPUT',
+		'connstate': 'ESTABLISHED,RELATED',
+		'jump': 'ACCEPT'
+	    },
+
+	    'local': {
+		'chain': 'INPUT',
+		'source': '127.0.0.1',
+		'jump': 'ACCEPT'
+	    },
+
+	    'docker': {
+		'chain': 'INPUT',
+		'source': '172.17.0.0/16',
+		'jump': 'ACCEPT'
+	    },
+
+	    'ssh': {
+		'chain': 'INPUT',
+		'proto': 'TCP',
+		'dport': '22',
+		'jump': 'ACCEPT',
+	    },
+
+	    'http': {
+		'chain': 'INPUT',
+		'proto': 'TCP',
+		'dport': '80',
+		'jump': 'ACCEPT',
+	    },
+
+	    'https': {
+		'chain': 'INPUT',
+		'proto': 'TCP',
+		'dport': '443',
+		'jump': 'ACCEPT',
+	    }
+
+	},
+    },
+}, merge=salt['pillar.get']('iptables:lookup'), base='default') %}
