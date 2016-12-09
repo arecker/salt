@@ -1,5 +1,0 @@
-base:
-  '*':
-    - system
-    - services
-    - web

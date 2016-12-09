@@ -1,0 +1,91 @@
+{% from "nginx/map.jinja" import nginx with context %}
+{% set sites = salt['pillar.get']('nginx', {}) %}
+
+user {{ nginx.user }};
+worker_processes 4;
+pid /run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {    
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout  65;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    client_max_body_size 500M;
+    
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    {% for site, info in sites.iteritems() %}
+    # {{ site }}
+    server {
+        listen 80;
+        server_name {{ info['host'] }};
+	index {{ info.get('index', 'index.html') }};
+        root {{ info['root'] }};
+        {% for location, target in info.get('redirects', {}).iteritems() %}
+        location = {{ location }} {
+            return 301 {{ target }};
+        }
+        {% endfor %}
+        {% for location, target in info.get('aliases', {}).iteritems() %}
+        location {{ location }} {
+            alias {{ target }};
+        }
+        {% endfor %}
+	{% for location, target in info.get('proxies', {}).iteritems() %}
+	location {{ location }} {
+	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	    proxy_set_header Host $http_host;
+	    proxy_redirect off;
+	    proxy_pass {{ target }};
+	    break;
+	}
+	{% endfor %}
+	{% if info.get('rootproxy') %}
+	location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            if (!-f $request_filename) {
+                proxy_pass {{ info['rootproxy'] }};
+                break;
+            }
+        }
+        {% else %}
+        location / {
+	    try_files $uri $uri/ =404;
+        }
+        {% endif %}
+        location ~ /.well-known {
+            allow all;
+        }
+    }
+    {% endfor %}
+
+    # Default
+    server {
+	listen *:80 default_server;
+	server_name  _;
+	location / {
+	    root {{ nginx.root }}/html;
+	    index index.html;
+	}
+    }
+
+}

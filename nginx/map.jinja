@@ -1,0 +1,17 @@
+{% set nginx = salt['grains.filter_by']({
+    'default': {
+	'package': 'nginx',
+	'service': 'nginx',
+	'user': 'www-data',
+	'group': 'www-data',
+	'config': '/etc/nginx/nginx.conf',
+	'root': '/usr/share/nginx/',
+    },
+    'Debian': {
+	'root': '/var/www/'
+    },
+    'RedHat': {
+	'user': 'nginx',
+	'group': 'nginx',
+    },
+}, merge=salt['pillar.get']('nginx:lookup'), base='default') %}
