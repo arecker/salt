@@ -1,0 +1,52 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: salt_solo
+  is_file_root: true
+
+  state_top:
+    base:
+      '*':
+        - iptables
+        - user
+        - ssh
+        - git
+        - virtualenv
+        - systemd
+        - upstart
+        - nginx
+        - certbot
+
+  pillars-from-files:
+    default.sls: test/pillars/default.sls
+    debian.sls: test/pillars/debian.sls
+    centos.sls: test/pillars/centos.sls
+    ubuntu.sls: test/pillars/ubuntu.sls
+
+  pillars:
+    top.sls:
+      base:
+        '*':
+          - default
+        'os:Debian':
+          - match: grain
+          - debian
+        'os:Ubuntu':
+          - match: grain
+          - ubuntu
+        'os:CentOS':
+          - match: grain
+          - centos
+
+  grains:
+    vagrant: True
+
+platforms:
+  - name: debian-8.6
+  - name: ubuntu-14.04
+  - name: centos-7.2
+
+suites:
+  - name: default
