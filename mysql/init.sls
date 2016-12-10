@@ -3,6 +3,7 @@
 mysql-packages:
   pkg.installed:
     - pkgs: {{ mysql.packages }}
+    - unless: which mysql  # Travis installs its own version, apparently
 
 mysql-pip-packages:
   pip.installed:
