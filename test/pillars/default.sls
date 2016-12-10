@@ -18,12 +18,20 @@ git:
     url: https://github.com/arecker/random.png
     target: /home/alex/git/random.png
     user: alex
+  moolah:
+    url: https://github.com/arecker/moolah.git
+    target: /home/alex/git/moolah
+    user: alex
 
 virtualenv:
   random.png:
     root: /home/alex/.virtualenvs/random.png
     user: alex
     requirements: /home/alex/git/random.png/requirements.txt
+  moolah:
+    root: /home/alex/.virtualenvs/moolah
+    user: alex
+    requirements: /home/alex/git/moolah/requirements.txt
 
 systemd:
   random.png:
@@ -33,9 +41,6 @@ systemd:
     start: /home/alex/.virtualenvs/random.png/bin/python server.py
 
 postgres:
-  blog:
-    user: blog
-    password: blogpass
   moolah:
     user: moolah
     password: moolahpass

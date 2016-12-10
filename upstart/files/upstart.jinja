@@ -8,4 +8,9 @@ setuid {{ USER }}
 setgid {{ GROUP }}
 
 chdir {{ WORKING_DIR }}
+
+{% for var in ENV %}
+env {{ var }}
+{% endfor %}
+
 exec {{ START }}

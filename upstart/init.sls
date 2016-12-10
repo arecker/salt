@@ -23,6 +23,7 @@ upstart-{{ job }}-file:
         GROUP: {{ info.get('group', 'root') }}
         WORKING_DIR: {{ info.get('dir', None) }}
         START: {{ info['start'] }}
+        ENV: {{ info.get('environment', []) }}
 
 upstart-{{ job }}-service:
   service.running:
