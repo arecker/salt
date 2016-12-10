@@ -21,6 +21,7 @@ install:
   - sudo apt-get autoremove
 
 script:
+  - bundle install
   - bundle exec kitchen test ubuntu
 
 branches:
