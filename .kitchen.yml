@@ -13,7 +13,7 @@ provisioner:
         - user
         - ssh
         - git
-        # - postgres
+        - mysql
         - virtualenv
         - systemd
         - upstart

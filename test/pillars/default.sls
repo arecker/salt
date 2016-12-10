@@ -40,6 +40,11 @@ postgres:
     user: moolah
     password: moolahpass
 
+mysql:
+  reckerdogs:
+    user: reckerdogs
+    password: reckerdogspass
+
 nginx:
   blog:
     root: /usr/share/nginx/blog
