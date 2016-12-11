@@ -1,12 +1,16 @@
 import os
 
-from fabric.operations import (
-    local as _local,
-    run as _run,
-    sudo as _sudo
-)
-from fabric.api import task
-from fabric.state import env
+try:
+    from fabric.operations import (
+        local as _local,
+        run as _run,
+        sudo as _sudo
+    )
+    from fabric.api import task
+    from fabric.state import env
+except ImportError:
+    print('pip install fabric, stupid')
+    exit(1)
 
 
 env.local = False
