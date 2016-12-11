@@ -1,0 +1,19 @@
+{% set postgres = salt['grains.filter_by']({
+    'default': {
+	'packages': [
+	    'postgresql-9.4',
+	    'postgresql-client-9.4',
+	    'postgresql-contrib-9.4',
+	    'postgresql-server-dev-9.4',
+	    'python-dev',
+	    'python-psycopg2',
+	],
+	'config': '/etc/postgresql/9.4/main/postgresql.conf',
+	'access_config': '/etc/postgresql/9.4/main/pg_hba.conf',
+    },
+    'RedHat': {
+	'packages': ['postgresql-server', 'postgresql-contrib'],
+	'config': '/var/lib/pgsql/data/postgresql.conf',
+	'access_config': '/var/lib/pgsql/data/pg_hba.conf',
+    },
+}, merge=salt['pillar.get']('postgres:lookup'), base='default') %}

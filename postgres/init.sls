@@ -1,4 +1,4 @@
-{% set postgres = pillar.get('postgres', {}) %}
+{% from "postgres/map.jinja" import postgres with context %}
 
 {% if grains['oscodename'] == 'trusty' %}
 postgres-ppa:
@@ -11,17 +11,11 @@ postgres-ppa:
 
 postgres-packages:
   pkg.installed:
-    - pkgs:
-        - postgresql-9.4
-        - postgresql-client-9.4
-        - postgresql-contrib-9.4
-        - postgresql-server-dev-9.4
-        - python-dev
-        - python-psycopg2
+    - pkgs: {{ postgres.packages }}
 
 postgres-access:
   file.managed:
-    - name: /etc/postgresql/9.4/main/pg_hba.conf
+    - name: {{ postgres.access_config }}
     - source: salt://postgres/files/pghba.conf
     - user: postgres
     - group: postgres
@@ -31,7 +25,7 @@ postgres-access:
 
 postgres-config:
   file.managed:
-    - name: /etc/postgresql/9.4/main/postgresql.conf
+    - name: {{ postgres.config }}
     - source: salt://postgres/files/pg.conf
     - user: postgres
     - group: postgres
@@ -52,7 +46,7 @@ postgres-service:
         - file: postgres-access
         - file: postgres-config
 
-{% for db, info in postgres.iteritems() %}
+{% for db, info in salt['pillar.get']('postgres', {}).iteritems() %}
 postgres-{{ db }}-user:
   cmd.run:
     - name: psql -c "CREATE USER {{ info['user'] }} WITH PASSWORD '{{ info['password'] }}';"
