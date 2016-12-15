@@ -50,6 +50,23 @@ mysql:
     user: reckerdogs
     password: reckerdogspass
 
+docker:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: reckerdogspass
+      MYSQL_DATABASE: reckerdogs
+      MYSQL_USER: reckerdogs
+      MYSQL_PASSWORD: reckerdogspass
+  reckerdogs:
+    image: wordpress
+    ports: '8001:80'
+    links: mysql:mysql
+    environment:
+      WORDPRESS_DB_USER: reckerdogs
+      WORDPRESS_DB_PASSWORD: reckerdogspass
+      WORDPRESS_DB_NAME: reckerdogs
+
 nginx:
   blog:
     root: /usr/share/nginx/blog
@@ -61,3 +78,6 @@ nginx:
   bob:
     root: /usr/share/nginx/bob
     host: bobrosssearch.local
+  reckerdogs:
+    host: reckerdogs.local
+    rootproxy: http://127.0.0.1:8001

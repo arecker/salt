@@ -19,6 +19,7 @@ provisioner:
         - systemd
         - upstart
         - redis
+        - docker
         - nginx
         - certbot
 

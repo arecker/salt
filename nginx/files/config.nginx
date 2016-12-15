@@ -37,7 +37,7 @@ http {
         listen 80;
         server_name {{ info['host'] }};
 	index {{ info.get('index', 'index.html') }};
-        root {{ info['root'] }};
+
         {% for location, target in info.get('redirects', {}).iteritems() %}
         location = {{ location }} {
             return 301 {{ target }};
@@ -69,6 +69,7 @@ http {
         }
         {% else %}
         location / {
+	    root {{ info['root'] }};
 	    try_files $uri $uri/ =404;
         }
         {% endif %}

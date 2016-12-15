@@ -36,3 +36,7 @@
 @test "nginx: alexrecker.local/anakin/ should redirect to anakin.html" {
     curl -I http://alexrecker.local/anakin/ | grep "alexrecker.local/anakin.html"
 }
+
+@test "nginx: reckerdogs.local should show wordpress installation page" {
+    curl -L http://reckerdogs.local | grep "<title>WordPress &rsaquo; Installation</title>"
+}

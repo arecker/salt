@@ -4,10 +4,6 @@ nginx-package:
     - pkgs:
         - {{ nginx.package }}
 
-{% set sites = salt['pillar.get']('nginx', {}) %}
-{% if sites.get('php', False) %}
-{% endif %}
-
 nginx-config:
   file.managed:
     - name: {{ nginx.config }}
