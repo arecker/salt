@@ -1,5 +1,34 @@
 #+TITLE: Salt
+#+STARTUP: showeverything indent
 
 [[https://travis-ci.org/arecker/salt][file:https://travis-ci.org/arecker/salt.svg?branch=master]]
 
 These are my salt scripts, man.
+
+* Bootstrapping
+
+Servers (both masters and minions) are bootstrapped with the help of
+fabric.  This is currently only supported on Debian Jessie.
+
+1. Clone this repository on the machine to =/srv/salt=
+
+   #+BEGIN_EXAMPLE
+     root@localhost# git clone https://github.com/arecker/salt /srv/salt
+   #+END_EXAMPLE
+
+2. Install =fabric=
+
+   #+BEGIN_EXAMPLE
+     root@localhost# apt-get install fabric
+   #+END_EXAMPLE
+
+3. While in =/srv/salt=, run the fabric tasks to meet your needs.
+
+   #+BEGIN_EXAMPLE
+     root@localhost# pwd
+     /srv/salt
+     root@localhost# fab local repo minion
+   #+END_EXAMPLE
+
+The fabric tasks can be run remotely, or locally (with =local= as the
+first task).

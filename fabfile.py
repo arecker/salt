@@ -39,5 +39,25 @@ def local():
 
 
 @task
-def minion():
-    run('echo "I am $(whoami) on $(hostname)"')
+def repo():
+    sudo('apt-get install -y apt-transport-https')
+    sudo(
+        'wget -O - https://repo.saltstack.com'
+        '/apt/debian/8/amd64/latest/SALTSTACK-GPG-KEY.pub | '
+        'apt-key add -'
+    )
+    sudo('echo {} > /etc/apt/sources.list.d/saltstack.list'.format(
+        'deb https://repo.saltstack.com'
+        '/apt/debian/8/amd64/latest jessie main'
+    ))
+    sudo('apt-get update')
+
+
+@task
+def minion(master='salt'):
+    config = '\n'.join([
+        'master: ' + master
+    ])
+    sudo('apt-get install -y salt-minion')
+    sudo('echo "{}" > /etc/salt/minion'.format(config))
+    sudo('systemctl restart salt-minion')
