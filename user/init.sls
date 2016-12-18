@@ -16,6 +16,7 @@ user-{{ user }}:
     - require:
         - pkg: user-packages
 
+{% if not salt['grains.get']('workstation', False) %}
 {% if ssh_present %}
 user-{{ user }}-ssh-present:
   ssh_auth.present:
@@ -33,5 +34,5 @@ user-{{ user }}-ssh-absent:
     - require:
         - user: user-{{ user }}
 {% endif %}
-
+{% endif %}
 {% endfor %}
