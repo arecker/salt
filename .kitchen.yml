@@ -18,6 +18,7 @@ provisioner:
 
 platforms:
   - name: debian-8.6
+  - name: ubuntu-14.06
 
 suites:
   - name: nothing

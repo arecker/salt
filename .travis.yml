@@ -6,6 +6,10 @@ env:
     - machine_pass=travis
     - machine_port=22
     - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
+  matrix:
+  - SUITE=nothing-ubuntu
+  - SUITE=base-ubuntu
+  - SUITE=webserver-ubuntu
 
 rvm:
   - 2.1.7
