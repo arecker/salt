@@ -1,3 +1,0 @@
-user:
-  alex:
-    groups: [ wheel ]

@@ -47,6 +47,8 @@ docker-{{ image }}:
     - name: {{ image }}
     - image: {{ info['image'] }}
     - links: {{ info.get('links', []) }}
+    - volumes: {{ info.get('volumes', []) }}
+    - volumes_from: {{ info.get('links_from', []) }}
     - port_bindings: {{ info.get('publish', []) }}
     - ports: {{ info.get('expose', []) }}
     - binds: {{ info.get('binds', [] )}}

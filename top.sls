@@ -1,8 +1,16 @@
 base:
+
   '*':
     - locale
     - user
-    {% if not salt['grains.get']('workstation', False) %}
-    - ssh
-    {% endif %}
     - docker
+
+  'roles:server':
+    - match: grain
+    - iptables
+    - ssh
+
+  'roles:webserver':
+    - match: grain
+    - certbot
+    - nginx

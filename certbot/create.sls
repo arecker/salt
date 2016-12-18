@@ -2,8 +2,8 @@
 {% for site, info in salt['pillar.get']('nginx').iteritems() %}
 {% set cert_exists = 'test -d /etc/letsencrypt/live/' + info['host'] %}
 certbot-{{ site }}-stop:
-  cmd.run:
-    - name: {{ certbot.nginx_stop }}
+  service.dead:
+    - name: nginx
     - unless: {{ cert_exists }}
 
 certbot-{{ site }}-download:
@@ -11,7 +11,7 @@ certbot-{{ site }}-download:
     - name: certbot certonly --standalone --standalone-supported-challenges http-01 -d {{ info['host'] }} --agree-tos --email alex@reckerfamily.com
     - unless: {{ cert_exists }}
     - require:
-      - cmd: certbot-{{ site }}-stop
+      - service: certbot-{{ site }}-stop
 {% endfor %}
 
 certbot-nginx-start:
