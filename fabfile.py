@@ -56,7 +56,11 @@ def repo():
 @task
 def minion(master='salt'):
     config = '\n'.join([
-        'master: ' + master
+        'master: ' + master,
+        'grains:',
+        '  roles:',
+        '    - server',
+        '    - webserver',
     ])
     sudo('apt-get install -y salt-minion')
     sudo('echo "{}" > /etc/salt/minion'.format(config))
