@@ -1,8 +1,11 @@
 ---
 driver:
   name: vagrant
+  network:
+    - ["forwarded_port", {guest: 80, host: 8080}]
+    - ["forwarded_port", {guest: 443, host: 8443}]
   synced_folders:
-    - [".", "/salt"]
+    - ["./test/certs", "/etc/letsencrypt/live"]
 
 provisioner:
   name: salt_solo
@@ -12,47 +15,26 @@ provisioner:
       '*':
         - locale
         - iptables
-        - user
         - ssh
-        - git
-        - postgres
-        - mysql
-        - virtualenv
-        - systemd
-        - upstart
-        - redis
+        - user
         - docker
         - nginx
-        - certbot
 
   pillars-from-files:
     default.sls: test/pillars/default.sls
-    debian.sls: test/pillars/debian.sls
-    centos.sls: test/pillars/centos.sls
-    ubuntu.sls: test/pillars/ubuntu.sls
 
   pillars:
     top.sls:
       base:
         '*':
           - default
-        'os:Debian':
-          - match: grain
-          - debian
-        'os:Ubuntu':
-          - match: grain
-          - ubuntu
-        'os:CentOS':
-          - match: grain
-          - centos
 
   grains:
     vagrant: True
+    master: True
 
 platforms:
   - name: debian-8.6
-  - name: ubuntu-14.04
-  - name: centos-7.2
 
 suites:
-  - name: default
+  - name: wordpress

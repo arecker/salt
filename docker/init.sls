@@ -40,15 +40,21 @@ docker-service:
     - watch:
         - pkg: docker-packages
 
-{% for container, info in salt['pillar.get']('docker', {}).iteritems() %}
-docker-{{ container }}:
+{% for image, info in salt['pillar.get']('docker', {}).iteritems() %}
+{% set environment = info.get('environment', {}) %}
+docker-{{ image }}:
   dockerng.running:
-    - name: {{ container }}
+    - name: {{ image }}
     - image: {{ info['image'] }}
-    - environment: {{ info.get('environment', {}) }}
-    - port_bindings: {{ info.get('ports', []) }}
     - links: {{ info.get('links', []) }}
-    - require:
-      - service: docker-service
-      - pip: docker-packages-pip
+    - port_bindings: {{ info.get('publish', []) }}
+    - ports: {{ info.get('expose', []) }}
+    - binds: {{ info.get('binds', [] )}}
+    - restart_policy: always
+    {% if environment %}
+    - environment:
+      {% for key, val in environment.iteritems() %}
+      - "{{ key }}": "{{ val }}"
+      {% endfor %}
+    {% endif %}
 {% endfor %}

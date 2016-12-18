@@ -69,3 +69,27 @@ iptables-rule-vagrant:
     - require:
         - iptables: iptables-policy-input
 {% endif %}
+
+{% if salt['grains.get']('master', False) %}
+iptables-rule-master-1:
+  iptables.append:
+    - chain: INPUT
+    - proto: TCP
+    - state: new
+    - dport: 4505
+    - jump: ACCEPT
+    - save: True
+    - require:
+        - iptables: iptables-policy-input
+
+iptables-rule-master-2:
+  iptables.append:
+    - chain: INPUT
+    - proto: TCP
+    - state: new
+    - dport: 4506
+    - jump: ACCEPT
+    - save: True
+    - require:
+        - iptables: iptables-policy-input
+{% endif %}

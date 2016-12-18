@@ -30,56 +30,24 @@ http {
     gzip_buffers 16 8k;
     gzip_http_version 1.1;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
     {% for site, info in sites.iteritems() %}
     # {{ site }}
+    #
     server {
-        listen 80;
-        server_name {{ info['host'] }};
-	index {{ info.get('index', 'index.html') }};
-
-        {% for location, target in info.get('redirects', {}).iteritems() %}
-        location = {{ location }} {
-            return 301 {{ target }};
-        }
-        {% endfor %}
-        {% for location, target in info.get('aliases', {}).iteritems() %}
-        location {{ location }} {
-            alias {{ target }};
-        }
-        {% endfor %}
-	{% for location, target in info.get('proxies', {}).iteritems() %}
-	location {{ location }} {
-	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	    proxy_set_header Host $http_host;
-	    proxy_redirect off;
-	    proxy_pass {{ target }};
-	    break;
-	}
-	{% endfor %}
-	{% if info.get('rootproxy') %}
+        listen 443 ssl;
+	ssl_certificate /etc/letsencrypt/live/{{ info['host'] }}/fullchain.pem;
+    	ssl_certificate_key /etc/letsencrypt/live/{{ info['host'] }}/privkey.pem;
+	server_name {{ info['host'] }};
+	{% if info.get('rootproxy', None) %}
 	location / {
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header Host $http_host;
-            proxy_redirect off;
-            if (!-f $request_filename) {
-                proxy_pass {{ info['rootproxy'] }};
-                break;
-            }
-        }
-        {% else %}
-        location / {
-	    root {{ info['root'] }};
-	    try_files $uri $uri/ =404;
-        }
-        {% endif %}
-        location ~ /.well-known {
-            allow all;
-        }
-    }
+            include proxy_params;
+            proxy_pass {{ info['rootproxy'] }};
+	}
+	{% endif %}
+    }   
     {% endfor %}
-
     # Default
+    #
     server {
 	listen *:80 default_server;
 	server_name  _;
