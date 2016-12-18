@@ -1,10 +1,16 @@
+git:
+  bobrosssearch.com:
+    user: alex
+    target: /home/alex/public/bobrosssearch.com
+    url: https://github.com/arecker/bobrosssearch.com.git
+
 docker:
-  reckerdogsdata:
-    image: debian:jessie
-    volumes: [ /var/lib/mysql, /var/www/html/wp-content ]
+  bob:
+    image: nginx
+    binds: /home/alex/public/bobrosssearch.com:/usr/share/nginx/html:ro
+    publish: 8001:80
   reckerdogsdb:
     image: mysql
-    volumes_from: reckerdogsdata
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: reckerdogs
@@ -14,7 +20,6 @@ docker:
     image: wordpress
     publish: '8000:80'
     links: reckerdogsdb:mysql
-    volumes_from: reckerdogsdata
     environment:
       WORDPRESS_DB_USER: reckerdogs
       WORDPRESS_DB_PASSWORD: password
@@ -24,3 +29,6 @@ nginx:
   reckerdogs:
     host: reckerdogs.local
     rootproxy: http://127.0.0.1:8000
+  bob:
+    host: bobrosssearch.local
+    rootproxy: http://127.0.0.1:8001

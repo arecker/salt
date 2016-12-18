@@ -3,6 +3,7 @@ base:
   '*':
     - locale
     - user
+    - git
     - docker
 
   'roles:server':

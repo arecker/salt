@@ -1,3 +1,6 @@
 {% set certbot = salt['grains.filter_by']({
-    'default': {}
+    'default': {
+	'nginx_start': 'systemctl start nginx',
+	'nginx_stop': 'systemctl stop nginx',
+    }
 }, merge=salt['pillar.get']('certbot:lookup'), base='default') %}

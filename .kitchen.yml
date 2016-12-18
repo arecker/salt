@@ -1,6 +1,8 @@
 ---
 driver:
   name: vagrant
+  customize:
+    memory: 1024
 
 provisioner:
   name: salt_solo
@@ -28,6 +30,9 @@ suites:
 
   - name: webserver
     driver:
+      network:
+        - ["forwarded_port", {guest: 80, host: 8080}]
+        - ["forwarded_port", {guest: 443, host: 8443}]
       synced_folders:
         - ["./test/certs", "/etc/letsencrypt/live"]
     provisioner:

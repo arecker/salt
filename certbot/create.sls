@@ -5,6 +5,7 @@ certbot-{{ site }}-stop:
   service.dead:
     - name: nginx
     - unless: {{ cert_exists }}
+    - onlyif: which nginx
 
 certbot-{{ site }}-download:
   cmd.run:
@@ -21,3 +22,4 @@ certbot-nginx-start:
       {% for site in salt['pillar.get']('nginx').keys() %}
       - cmd: certbot-{{ site }}-download
       {% endfor %}
+    - onlyif: which nginx

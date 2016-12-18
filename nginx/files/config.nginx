@@ -44,7 +44,14 @@ http {
             proxy_pass {{ info['rootproxy'] }};
 	}
 	{% endif %}
-    }   
+    }
+
+    # {{ site }} redirect
+    server {
+	listen 80;
+	server_name {{ info['host'] }};
+	return 301 https://$host$request_uri;
+    }
     {% endfor %}
     # Default
     #

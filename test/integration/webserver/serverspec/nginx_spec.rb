@@ -29,6 +29,16 @@ describe 'nginx' do
     expect(command('curl --silent localhost').stdout).to match('Anakin')
   end
 
+  it 'should serve bobrosssearch.local' do
+    expect(host('bobrosssearch.local')).to be_resolvable
+    expect(host('bobrosssearch.local').ipaddress).to eq('127.0.0.1')
+    expect(command('curl --silent -L --insecure https://bobrosssearch.local').stdout).to match('Bob Ross Search')
+  end
+
+  it 'should redirect http://bobrosssearch.local to https://bobrosssearch.local' do
+    expect(command('curl --silent -L --insecure http://bobrosssearch.local').stdout).to match('Bob Ross Search')
+  end
+
   it 'should serve reckerdogs.local' do
     expect(host('reckerdogs.local')).to be_resolvable
     expect(host('reckerdogs.local').ipaddress).to eq('127.0.0.1')
