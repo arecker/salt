@@ -18,7 +18,7 @@ provisioner:
 
 platforms:
   - name: debian-8.6
-  - name: ubuntu-14.06
+  - name: ubuntu-14.04
 
 suites:
   - name: nothing
@@ -31,9 +31,9 @@ suites:
 
   - name: webserver
     driver:
-      network:
-        - ["forwarded_port", {guest: 80, host: 8080}]
-        - ["forwarded_port", {guest: 443, host: 8443}]
+      # network:
+      #   - ["forwarded_port", {guest: 80, host: 8080}]
+      #   - ["forwarded_port", {guest: 443, host: 8443}]
       synced_folders:
         - ["./test/certs", "/etc/letsencrypt/live"]
     provisioner:
