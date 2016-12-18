@@ -23,7 +23,7 @@ before_install:
   - sudo pip install docker-py
 
 script:
-  - bundle exec kitchen test ubuntu
+  - bundle exec kitchen test $SUITE
 
 branches:
   only:
