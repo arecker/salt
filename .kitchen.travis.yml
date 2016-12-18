@@ -6,3 +6,5 @@ driver:
   port: <%= ENV["machine_port"] %>
   username: <%= ENV["machine_user"] %>
   password: <%= ENV["machine_pass"] %>
+  synced_folders:
+    - ["./test/certs", "/etc/letsencrypt/live"]
