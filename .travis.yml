@@ -21,6 +21,7 @@ before_install:
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
   - sudo apt-get install python-pip
   - sudo pip install docker-py
+  - sudo mkdir -p /etc/letencrypt/live && sudo cp -R $TRAVIS_BUILD_DIR/test/certs/* /etc/letsencrypt/live
 
 script:
   - bundle exec kitchen test $SUITE
