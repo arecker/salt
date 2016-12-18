@@ -18,6 +18,7 @@ provisioner:
         - ssh
         - user
         - docker
+        - certbot
         - nginx
 
   pillars-from-files:
