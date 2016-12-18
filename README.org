@@ -10,19 +10,19 @@ These are my salt scripts, man.
 Servers (both masters and minions) are bootstrapped with the help of
 fabric.  This is currently only supported on Debian Jessie.
 
-1. Clone this repository on the machine to =/srv/salt=
+1. Clone this repository on the machine to /srv/salt
 
    #+BEGIN_EXAMPLE
      root@localhost# git clone https://github.com/arecker/salt /srv/salt
    #+END_EXAMPLE
 
-2. Install =fabric=
+2. Install fabric
 
    #+BEGIN_EXAMPLE
      root@localhost# apt-get install fabric
    #+END_EXAMPLE
 
-3. While in =/srv/salt=, run the fabric tasks to meet your needs.
+3. While in /srv/salt, run the fabric tasks to meet your needs.
 
    #+BEGIN_EXAMPLE
      root@localhost# pwd
