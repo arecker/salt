@@ -36,4 +36,4 @@ nginx:
     host: bobrosssearch.local
     rootproxy: http://127.0.0.1:8001
     proxies:
-      /random.png: http://127.0.0.1:8003
+      /random.png: http://127.0.0.1:8003/
