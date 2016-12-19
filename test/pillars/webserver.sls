@@ -24,6 +24,9 @@ docker:
       WORDPRESS_DB_USER: reckerdogs
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: reckerdogs
+  random.png:
+    image: arecker/random.png:latest
+    publish: 8003:8000
 
 nginx:
   reckerdogs:
@@ -32,3 +35,5 @@ nginx:
   bob:
     host: bobrosssearch.local
     rootproxy: http://127.0.0.1:8001
+    proxies:
+      /random.png: http://127.0.0.1:8003

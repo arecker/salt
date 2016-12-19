@@ -38,6 +38,12 @@ http {
 	ssl_certificate /etc/letsencrypt/live/{{ info['host'] }}/fullchain.pem;
     	ssl_certificate_key /etc/letsencrypt/live/{{ info['host'] }}/privkey.pem;
 	server_name {{ info['host'] }};
+	{% for location, target in info.get('proxies', {}).iteritems() %}
+        location {{ location }} {
+            include proxy_params;
+            proxy_pass {{ target }};
+        }
+        {% endfor %}
 	{% if info.get('rootproxy', None) %}
 	location / {
             include proxy_params;

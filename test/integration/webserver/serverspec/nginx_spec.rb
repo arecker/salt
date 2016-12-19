@@ -45,4 +45,8 @@ describe 'nginx' do
     expect(command('curl --silent -L --insecure https://reckerdogs.local').stdout).to match('WordPress')
   end
 
+  it 'should proxy to random.png' do
+    expect(command('curl --silent -L --insecure https://bobrosssearch.local/random.png').stdout).to match('No pictures to pick from')
+  end
+
 end

@@ -6,7 +6,8 @@ describe 'docker' do
 
   containers = [
     'reckerdogsdb',
-    'reckerdogs'
+    'reckerdogs',
+    'random.png',
   ]
 
   containers.each do |container|
