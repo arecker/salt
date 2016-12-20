@@ -51,7 +51,7 @@ describe 'nginx' do
   end
 
   it 'should proxy to random.png' do
-    expect(command('curl --silent -L --insecure https://alexrecker.com/random.png').stdout).to match('No pictures to pick from')
+    expect(command('curl --silent -L --insecure https://alexrecker.local/random.png').stdout).to match('No pictures to pick from')
   end
 
 end
