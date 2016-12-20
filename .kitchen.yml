@@ -3,43 +3,47 @@ driver:
   name: vagrant
   customize:
     memory: 1024
-  synced_folders:
-    - ["./test/certs", "/etc/letsencrypt/live"]
 
 provisioner:
   name: salt_solo
   is_file_root: true
   state_top_from_file: true
   pillars-from-files:
-    user.sls: test/pillars/user.sls
+    me.sls: test/pillars/me.sls
   pillars:
     top.sls:
       base:
         '*':
-          - user
+          - me
+          - everything
 
 platforms:
   - name: debian-8.6
   - name: ubuntu-14.04
 
 suites:
-  - name: nothing
-
-  - name: base
-    provisioner:
-      grains:
-        roles:
-          - server
-
-  - name: webserver
+  - name: lappy
     provisioner:
       pillars-from-files:
-        everything.sls: test/pillars/webserver.sls
+        everything.sls: test/pillars/lappy.sls
+      grains:
+        roles:
+          - development
+
+  - name: columbia
+    driver:
+      customize:
+        memory: 1024
+      synced_folders:
+        - ["./test/certs", "/etc/letsencrypt/live"]
+    provisioner:
+      pillars-from-files:
+        everything.sls: test/pillars/columbia.sls
       pillars:
         top.sls:
           base:
             '*':
-              - user
+              - me
               - everything
       grains:
         roles:

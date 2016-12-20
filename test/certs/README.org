@@ -1,0 +1,4 @@
+#+TITLE: Certs
+
+This directory is meant to resemble =/etc/letsencrypt/live= and should
+be mounted there while running tests.

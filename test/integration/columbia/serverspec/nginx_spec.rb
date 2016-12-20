@@ -45,8 +45,13 @@ describe 'nginx' do
     expect(command('curl --silent -L --insecure https://reckerdogs.local').stdout).to match('WordPress')
   end
 
+  it 'should serve alexrecker.com' do
+    expect(host('alexrecker.local')).to be_resolvable
+    expect(host('alexrecker.local').ipaddress).to eq('127.0.0.1')
+  end
+
   it 'should proxy to random.png' do
-    expect(command('curl --silent -L --insecure https://bobrosssearch.local/random.png').stdout).to match('No pictures to pick from')
+    expect(command('curl --silent -L --insecure https://alexrecker.com/random.png').stdout).to match('No pictures to pick from')
   end
 
 end

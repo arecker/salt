@@ -7,9 +7,8 @@ env:
     - machine_port=22
     - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
   matrix:
-  - SUITE=nothing-ubuntu
-  - SUITE=base-ubuntu
-  - SUITE=webserver-ubuntu
+  - SUITE=lappy
+  - SUITE=columbia
 
 rvm:
   - 2.1.7
@@ -18,13 +17,11 @@ sudo: required
 dist: trusty
 
 before_install:
-  - sudo usermod -p "`openssl passwd -1 'travis'`" travis
-  - sudo apt-get install python-pip
-  - sudo pip install docker-py
-  - sudo mkdir -p /etc/letsencrypt/live && sudo cp -R $TRAVIS_BUILD_DIR/test/certs/* /etc/letsencrypt/live
+  - sudo $TRAVIS_BUILD_DIR/test/setup/common.sh
+  - sudo $TRAVIS_BUILD_DIR/test/setup/${SUITE}.sh
 
 script:
-  - bundle exec kitchen test $SUITE
+  - bundle exec kitchen test ${SUITE}-ubuntu-1404
 
 branches:
   only:

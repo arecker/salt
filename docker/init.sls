@@ -22,14 +22,13 @@ docker-repo:
 
 docker-packages:
   pkg.installed:
-    - pkgs:
-        - docker-engine
-        - python-pip
+    - name: docker-engine
 
 docker-packages-pip:
   pip.installed:
     - name: docker-py
     - reload_modules: True
+    - unless: pip freeze | grep 'docker-py=='  # https://github.com/saltstack/salt/issues/28036
     - require:
       - pkg: docker-packages
 

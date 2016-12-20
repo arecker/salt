@@ -5,9 +5,12 @@ set :backend, :exec
 describe 'docker' do
 
   containers = [
-    'reckerdogsdb',
-    'reckerdogs',
+    'bob-proxy',
+    'blog-proxy',
+    'wedding-proxy',
     'random.png',
+    'reckerdogs-db',
+    'reckerdogs-wp',
   ]
 
   containers.each do |container|

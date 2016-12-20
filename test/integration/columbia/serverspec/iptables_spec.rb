@@ -24,5 +24,4 @@ describe 'iptables' do
     expect(iptables).to have_rule('-P OUTPUT ACCEPT')
   end
 
-
 end
