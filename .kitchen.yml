@@ -39,12 +39,6 @@ suites:
     provisioner:
       pillars-from-files:
         everything.sls: test/pillars/columbia.sls
-      pillars:
-        top.sls:
-          base:
-            '*':
-              - me
-              - everything
       grains:
         roles:
           - server
@@ -59,12 +53,6 @@ suites:
     provisioner:
       pillars-from-files:
         everything.sls: test/pillars/sriram.sls
-      pillars:
-        top.sls:
-          base:
-            '*':
-              - me
-              - everything
       grains:
         roles:
           - server
