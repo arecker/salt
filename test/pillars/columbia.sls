@@ -48,6 +48,22 @@ docker:
       WORDPRESS_DB_USER: reckerdogs
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: reckerdogs
+
+  moolah-redis:
+    image: redis
+  moolah-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: moolah
+      POSTGRES_PASSWORD: moolahpassword
+  moolah:
+    image: arecker/moolah:latest
+    links: moolah-db:db,moolah-redis:redis
+    publish: '8005:80'
+    environment:
+      HOST: moolah.reckerfamily.local
+      DB_PASS: moolahpassword
+      SECRET_KEY: lol-this-is-so-secret
       
 nginx:
   bob:
@@ -64,3 +80,6 @@ nginx:
   wedding:
     host: alexandmarissa.local
     rootproxy: http://127.0.0.1:8003
+  moolah:
+    host: moolah.reckerfamily.local
+    rootproxy: http://127.0.0.1:8005

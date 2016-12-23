@@ -45,6 +45,16 @@ describe 'nginx' do
     expect(command('curl --silent -L --insecure https://reckerdogs.local').stdout).to match('WordPress')
   end
 
+  it 'should serve moolah.reckerfamily.local' do
+    expect(host('moolah.reckerfamily.local')).to be_resolvable
+    expect(host('moolah.reckerfamily.local').ipaddress).to eq('127.0.0.1')
+    expect(command('curl --silent -L --insecure https://moolah.reckerfamily.local').stdout).to match('Login to Moolah')
+  end
+
+  it 'should serve a static file from moolah.reckerfamily.local' do
+    expect(command('curl --silent -L --insecure https://moolah.reckerfamily.local/static/app.js').exit_status).to eq(0)
+  end
+
   it 'should serve alexrecker.com' do
     expect(host('alexrecker.local')).to be_resolvable
     expect(host('alexrecker.local').ipaddress).to eq('127.0.0.1')

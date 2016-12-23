@@ -11,6 +11,9 @@ describe 'docker' do
     'random.png',
     'reckerdogs-db',
     'reckerdogs-wp',
+    'moolah-redis',
+    'moolah-db',
+    'moolah'
   ]
 
   containers.each do |container|
