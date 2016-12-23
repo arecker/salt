@@ -9,6 +9,7 @@ env:
   matrix:
   - SUITE=lappy
   - SUITE=columbia
+  - SUITE=sriram
 
 rvm:
   - 2.1.7
@@ -18,7 +19,6 @@ dist: trusty
 
 before_install:
   - sudo $TRAVIS_BUILD_DIR/test/setup/common.sh
-  - sudo $TRAVIS_BUILD_DIR/test/setup/${SUITE}.sh
 
 script:
   - bundle exec kitchen test ${SUITE}-ubuntu-1404

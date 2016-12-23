@@ -7,3 +7,7 @@ sudo usermod -p "`openssl passwd -1 'travis'`" travis
 # Just install it manually
 sudo apt-get install python-pip
 sudo pip install docker-py
+
+# Copy the "certs" over to the expected directory
+mkdir -p /etc/letsencrypt/live
+cp -R $TRAVIS_BUILD_DIR/test/certs/* /etc/letsencrypt/live/

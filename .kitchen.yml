@@ -49,3 +49,23 @@ suites:
         roles:
           - server
           - webserver
+
+  - name: sriram
+    driver:
+      customize:
+        memory: 512
+      synced_folders:
+        - ["./test/certs", "/etc/letsencrypt/live"]
+    provisioner:
+      pillars-from-files:
+        everything.sls: test/pillars/sriram.sls
+      pillars:
+        top.sls:
+          base:
+            '*':
+              - me
+              - everything
+      grains:
+        roles:
+          - server
+          - webserver
