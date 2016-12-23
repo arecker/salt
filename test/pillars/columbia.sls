@@ -2,6 +2,9 @@ directories:
   /home/alex/bin:
     user: alex
     group: alex
+  /home/alex/data:
+    user: alex
+    group: alex
   /home/alex/public/alexrecker.com:
     user: alex
     group: alex
@@ -35,6 +38,8 @@ docker:
 
   reckerdogs-db:
     image: mysql
+    binds:
+      - '/home/alex/data/reckerdogs/mysql:/var/lib/mysql'
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: reckerdogs
@@ -43,6 +48,8 @@ docker:
   reckerdogs-wp:
     image: wordpress
     publish: '8001:80'
+    binds:
+      - '/home/alex/data/reckerdogs/wp-content:/var/www/html/wp-content'
     links: reckerdogs-db:mysql
     envnironment:
       WORDPRESS_DB_USER: reckerdogs
@@ -53,12 +60,16 @@ docker:
     image: redis
   moolah-db:
     image: postgres
+    binds:
+      - '/home/alex/data/moolah/postgres:/var/lib/postgresql/data'
     environment:
       POSTGRES_DB: moolah
       POSTGRES_PASSWORD: moolahpassword
   moolah:
     image: arecker/moolah:latest
     links: moolah-db:db,moolah-redis:redis
+    binds:
+      - '/home/alex/data/moolah/media:/var/www/moolah/media'
     publish: '8005:80'
     environment:
       HOST: moolah.reckerfamily.local
