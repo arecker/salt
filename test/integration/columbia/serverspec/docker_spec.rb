@@ -3,7 +3,6 @@ require 'serverspec'
 set :backend, :exec
 
 describe 'docker' do
-
   containers = [
     'bob-proxy',
     'blog-proxy',
@@ -13,7 +12,9 @@ describe 'docker' do
     'reckerdogs-wp',
     'moolah-redis',
     'moolah-db',
-    'moolah'
+    'moolah-gunicorn',
+    'moolah-celery',
+    'moolah-nginx'
   ]
 
   containers.each do |container|
@@ -21,5 +22,4 @@ describe 'docker' do
       expect(docker_container(container)).to be_running
     end
   end
-
 end

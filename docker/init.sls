@@ -41,6 +41,7 @@ docker-service:
 
 {% for image, info in salt['pillar.get']('docker', {}).iteritems() %}
 {% set environment = info.get('environment', {}) %}
+{% set command = info.get('cmd', None) %}
 docker-{{ image }}:
   dockerng.running:
     - name: {{ image }}
@@ -52,6 +53,9 @@ docker-{{ image }}:
     - ports: {{ info.get('expose', []) }}
     - binds: {{ info.get('binds', [] )}}
     - restart_policy: always
+    {% if command %}
+    - cmd: {{ command }}
+    {% endif %}
     {% if environment %}
     - environment:
       {% for key, val in environment.iteritems() %}

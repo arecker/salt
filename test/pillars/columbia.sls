@@ -22,19 +22,19 @@ docker:
   bob-proxy:
     image: nginx
     binds: /home/alex/public/bobrosssearch.com:/usr/share/nginx/html:ro
-    publish: 8000:80
+    publish: 127.0.0.1:8000:80
   blog-proxy:
     image: nginx
     binds: /home/alex/public/alexrecker.com:/usr/share/nginx/html:ro
-    publish: 8002:80
+    publish: 127.0.0.1:8002:80
   wedding-proxy:
     image: nginx
     binds: /home/alex/public/alexandmarissa.com:/usr/share/nginx/html:ro
-    publish: 8003:80
+    publish: 127.0.0.1:8003:80
   random.png:
     image: arecker/random.png:latest
     binds: /home/alex/public/random.png:/app/images:ro
-    publish: 8004:8000
+    publish: 127.0.0.1:8004:8000
 
   reckerdogs-db:
     image: mysql
@@ -47,7 +47,7 @@ docker:
       MYSQL_PASSWORD: password
   reckerdogs-wp:
     image: wordpress
-    publish: '8001:80'
+    publish: 127.0.0.1:8001:80
     binds:
       - '/home/alex/data/reckerdogs/wp-content:/var/www/html/wp-content'
     links: reckerdogs-db:mysql
@@ -63,14 +63,29 @@ docker:
     binds:
       - '/home/alex/data/moolah/postgres:/var/lib/postgresql/data'
     environment:
-      POSTGRES_DB: moolah
       POSTGRES_PASSWORD: moolahpassword
-  moolah:
+  moolah-gunicorn:
     image: arecker/moolah:latest
     links: moolah-db:db,moolah-redis:redis
-    binds:
-      - '/home/alex/data/moolah/media:/var/www/moolah/media'
-    publish: '8005:80'
+    expose: 8000
+    cmd: gunicorn
+    environment:
+      HOST: moolah.reckerfamily.local
+      DB_PASS: moolahpassword
+      SECRET_KEY: lol-this-is-so-secret
+  moolah-celery:
+    image: arecker/moolah:latest
+    links: moolah-db:db,moolah-redis:redis
+    cmd: celery
+    environment:
+      HOST: moolah.reckerfamily.local
+      DB_PASS: moolahpassword
+      SECRET_KEY: lol-this-is-so-secret
+  moolah-nginx:
+    image: arecker/moolah:latest
+    links: moolah-db:db,moolah-redis:redis,moolah-gunicorn:gunicorn
+    publish: 127.0.0.1:8005:80
+    cmd: nginx
     environment:
       HOST: moolah.reckerfamily.local
       DB_PASS: moolahpassword
