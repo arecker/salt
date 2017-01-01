@@ -22,14 +22,6 @@ platforms:
   - name: ubuntu-14.04
 
 suites:
-  - name: lappy
-    provisioner:
-      pillars-from-files:
-        everything.sls: test/pillars/lappy.sls
-      grains:
-        roles:
-          - development
-
   - name: columbia
     driver:
       customize:

@@ -5,13 +5,6 @@ base:
     - user
     - fs
 
-  'roles:development':
-    - match: grain
-    - git
-    - emacs
-    - python
-    - docker
-
   'roles:server':
     - match: grain
     - iptables
