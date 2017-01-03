@@ -19,10 +19,11 @@ docker-repo:
     - require_in:
         - pkg: docker-packages
 {% endif %}
-
 docker-packages:
   pkg.installed:
-    - name: docker-engine
+    - pkgs:
+        - docker-engine
+        - python-pip
 
 docker-packages-pip:
   pip.installed:

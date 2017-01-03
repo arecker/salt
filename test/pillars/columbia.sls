@@ -12,17 +12,9 @@ directories:
     user: alex
     group: alex
 
-git:
-  bobrosssearch.com:
-    user: alex
-    target: /home/alex/public/bobrosssearch.com
-    url: https://github.com/arecker/bobrosssearch.com.git
-
 docker:
-  
   bob:
-    image: nginx
-    binds: /home/alex/public/bobrosssearch.com:/usr/share/nginx/html:ro
+    image: arecker/bobrosssearch.com:latest
     environment:
       VIRTUAL_HOST: bobrosssearch.local
 

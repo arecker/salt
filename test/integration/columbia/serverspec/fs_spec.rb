@@ -7,8 +7,7 @@ describe 'fs' do
     'bin',
     'data',
     'public/alexrecker.com',
-    'public/alexandmarissa.com',
-    'public/bobrosssearch.com'
+    'public/alexandmarissa.com'
   ].each do |path|
     it "should have created #{path} as alex" do
       target = file(File.join('/home/alex', path))

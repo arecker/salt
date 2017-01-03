@@ -7,5 +7,4 @@ base:
     - iptables
     - ssh
     - git
-    - python
     - docker
