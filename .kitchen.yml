@@ -8,6 +8,8 @@ provisioner:
   name: salt_solo
   is_file_root: true
   state_top_from_file: true
+  grains:
+    vagrant: True
   pillars-from-files:
     me.sls: test/pillars/me.sls
   pillars:
@@ -26,26 +28,6 @@ suites:
     driver:
       customize:
         memory: 1024
-      synced_folders:
-        - ["./test/certs", "/etc/letsencrypt/live"]
     provisioner:
       pillars-from-files:
         everything.sls: test/pillars/columbia.sls
-      grains:
-        roles:
-          - server
-          - webserver
-
-  - name: sriram
-    driver:
-      customize:
-        memory: 512
-      synced_folders:
-        - ["./test/certs", "/etc/letsencrypt/live"]
-    provisioner:
-      pillars-from-files:
-        everything.sls: test/pillars/sriram.sls
-      grains:
-        roles:
-          - server
-          - webserver
