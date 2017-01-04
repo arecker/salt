@@ -17,6 +17,9 @@ directories:
   /home/alex/public/random.png:
     user: alex
     group: alex
+  /home/alex/public/moolah.reckerfamily.com:
+    user: alex
+    group: alex
 
 git:
   bobrosssearch.com:
@@ -35,6 +38,14 @@ git:
     user: alex
     url: https://github.com/arecker/subscribah.git
     target: /home/alex/git/subscribah
+  django-proxy:
+    user: alex
+    url: https://github.com/arecker/django-proxy.git
+    target: /home/alex/git/django-proxy
+  blog-proxy:
+    user: alex
+    url: https://github.com/arecker/blog-proxy.git
+    target: /home/alex/git/blog-proxy
 
 docker:
   bob:
@@ -77,10 +88,11 @@ docker:
   moolah-gunicorn:
     image: arecker/moolah:latest
     build: /home/alex/git/moolah
+    binds: /home/alex/public/moolah.reckerfamily.com:/var/www/moolah
     links:
       - moolah-db:db
       - moolah-redis:redis
-    ports: [ 8000 ]
+    ports: [ 80 ]
     cmd: gunicorn
     environment:
       HOST: moolah.reckerfamily.local
@@ -95,20 +107,14 @@ docker:
       HOST: moolah.reckerfamily.local
       DB_PASS: moolahpassword
       SECRET_KEY: lol-this-is-so-secret
-  moolah-nginx:
-    image: arecker/moolah:latest
-    build: /home/alex/git/moolah
+  moolah-proxy:
+    image: arecker/django-proxy:latest
+    build: /home/alex/git/django-proxy
+    binds: /home/alex/public/moolah.reckerfamily.com:/usr/share/nginx/html:ro
     links:
-      - moolah-db:db
-      - moolah-redis:redis
-      - moolah-gunicorn:gunicorn
-    ports: [ 80 ]
-    cmd: nginx
+      - moolah-gunicorn:app
     environment:
       VIRTUAL_HOST: moolah.reckerfamily.local
-      HOST: moolah.reckerfamily.local
-      DB_PASS: moolahpassword
-      SECRET_KEY: lol-this-is-so-secret
 
   random.png:
     image: arecker/random.png
@@ -130,8 +136,11 @@ docker:
       SMTP_USER: you@gmail.com
       SMTP_PASSWORD: yourpassword
   blog:
-    image: arecker/blog:latest
-    links: random.png:random.png,subscribah:subscribah
+    image: arecker/blog-proxy:latest
+    build: /home/alex/git/blog-proxy
+    links:
+      - random.png:random.png
+      - subscribah:subscribah
     binds: /home/alex/public/alexrecker.com:/usr/share/nginx/html:ro
     environment:
       VIRTUAL_HOST: alexrecker.local
