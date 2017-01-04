@@ -14,6 +14,9 @@ directories:
   /home/alex/public/alexandmarissa.com:
     user: alex
     group: alex
+  /home/alex/public/random.png:
+    user: alex
+    group: alex
 
 git:
   bobrosssearch.com:
