@@ -1,11 +1,25 @@
 {% for container, info in salt['pillar.get']('docker', {}).iteritems() %}
-docker-{{ container }}:
+{% set image = info['image'] %}
+{% set build = info.get('build', None) %}
+{% set cmd = info.get('cmd', None) %}
+docker-image-{{ container }}-{{ image }}:
+  dockerng.image_present:
+    - name: {{ image }}
+    {% if build %}
+    - build: {{ build }}
+    {% endif %}
+
+docker-container-{{ container }}:
   dockerng.running:
     - name: {{ container }}
-    - image: {{ info['image'] }}
+    - image: {{ image }}
     - binds: {{ info.get('binds', []) }}
     - environment: {{ info.get('environment', {}) }}
     - links: {{ info.get('links', []) }}
     - ports: {{ info.get('ports', []) }}
-    {% if info.get('cmd', False) %}- cmd: {{ info.get('cmd', None) }}{% endif %}
+    {% if cmd %}
+    - cmd: {{ cmd }}
+    {% endif %}
+    - require:
+        - dockerng: docker-image-{{ container }}-{{ image }}
 {% endfor %}

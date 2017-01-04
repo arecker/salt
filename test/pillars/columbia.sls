@@ -5,6 +5,9 @@ directories:
   /home/alex/data:
     user: alex
     group: alex
+  /home/alex/git:
+    user: alex
+    group: alex
   /home/alex/public/alexrecker.com:
     user: alex
     group: alex
@@ -12,9 +15,28 @@ directories:
     user: alex
     group: alex
 
+git:
+  bobrosssearch.com:
+    user: alex
+    url: https://github.com/arecker/bobrosssearch.com.git
+    target: /home/alex/git/bobrosssearch.com
+  moolah:
+    user: alex
+    url: https://github.com/arecker/moolah.git
+    target: /home/alex/git/moolah
+  random.png:
+    user: alex
+    url: https://github.com/arecker/random.png.git
+    target: /home/alex/git/random.png
+  subscribah:
+    user: alex
+    url: https://github.com/arecker/subscribah.git
+    target: /home/alex/git/subscribah
+
 docker:
   bob:
     image: arecker/bobrosssearch.com:latest
+    build: /home/alex/git/bobrosssearch.com
     environment:
       VIRTUAL_HOST: bobrosssearch.local
 
@@ -51,8 +73,11 @@ docker:
       POSTGRES_PASSWORD: moolahpassword
   moolah-gunicorn:
     image: arecker/moolah:latest
-    links: moolah-db:db,moolah-redis:redis
-    ports: "8000"
+    build: /home/alex/git/moolah
+    links:
+      - moolah-db:db
+      - moolah-redis:redis
+    ports: [ 8000 ]
     cmd: gunicorn
     environment:
       HOST: moolah.reckerfamily.local
@@ -60,6 +85,7 @@ docker:
       SECRET_KEY: lol-this-is-so-secret
   moolah-celery:
     image: arecker/moolah:latest
+    build: /home/alex/git/moolah
     links: moolah-db:db,moolah-redis:redis
     cmd: celery
     environment:
@@ -68,8 +94,12 @@ docker:
       SECRET_KEY: lol-this-is-so-secret
   moolah-nginx:
     image: arecker/moolah:latest
-    links: moolah-db:db,moolah-redis:redis,moolah-gunicorn:gunicorn
-    ports: "80"
+    build: /home/alex/git/moolah
+    links:
+      - moolah-db:db
+      - moolah-redis:redis
+      - moolah-gunicorn:gunicorn
+    ports: [ 80 ]
     cmd: nginx
     environment:
       VIRTUAL_HOST: moolah.reckerfamily.local
@@ -79,6 +109,7 @@ docker:
 
   random.png:
     image: arecker/random.png
+    build: /home/alex/git/random.png
     binds: /home/alex/public/random.png:/app/images:ro
   subscribah-db:
     image: postgres
@@ -87,6 +118,7 @@ docker:
       POSTGRES_DB: subscriber
   subscribah:
     image: arecker/subscribah:latest
+    build: /home/alex/git/subscribah
     links: subscribah-db:db
     environment:
       SERVER_NAME: alexrecker.local

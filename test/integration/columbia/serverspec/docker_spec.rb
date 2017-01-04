@@ -21,6 +21,7 @@ describe 'docker proxy' do
   {
     'alexrecker.local/subscribe/' => /Subscribe | Blog by Alex Recker/,
     'alexrecker.local/random.png' => /No pictures to pick from/,
+    'moolah.reckerfamily.local' => /Login to Moolah/,
     'reckerdogs.local' => /WordPress/,
   }.each do |target,expected|
     it "should proxy to #{target}" do
