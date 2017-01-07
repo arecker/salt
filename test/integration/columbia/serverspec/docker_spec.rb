@@ -21,11 +21,24 @@ describe 'docker proxy' do
   {
     'alexrecker.local/subscribe/' => /Subscribe | Blog by Alex Recker/,
     'alexrecker.local/random.png' => /No pictures to pick from/,
-    'moolah.reckerfamily.local' => /Login to Moolah/,
     'reckerdogs.local' => /WordPress/,
   }.each do |target,expected|
     it "should proxy to #{target}" do
       expect(command("curl -L #{target}").stdout).to match(expected)
+    end
+  end
+end
+
+describe 'docker volumes' do
+  {
+    'reckerdogs' => ['/var/www/html/wp-content'],
+    'reckerdogs-db' => ['/var/lib/mysql'],
+    'subscribah-db' => ['/var/lib/postgresql/data']
+  }.each do |container, volumes|
+    volumes.each do |v|
+      it "should have made volume #{v} on #{container}" do
+        expect(docker_container(container)).to have_volume(v)
+      end
     end
   end
 end
