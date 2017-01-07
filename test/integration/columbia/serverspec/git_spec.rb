@@ -2,8 +2,6 @@ require 'serverspec'
 
 set :backend, :exec
 
-describe 'git' do
-  it 'should be instaled' do
-    expect(package('git')).to be_installed
-  end
+describe package('git') do
+  it { should be_installed }
 end

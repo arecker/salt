@@ -2,17 +2,16 @@ require 'serverspec'
 
 set :backend, :exec
 
-describe 'fs' do
-  [
-    'bin',
-    'data',
-    'public/alexrecker.com',
-    'public/alexandmarissa.com'
-  ].each do |path|
-    it "should have created #{path} as alex" do
-      target = file(File.join('/home/alex', path))
-      expect(target).to be_directory
-      expect(target).to be_owned_by('alex')
-    end
+DIRECTORIES = [
+  '/home/alex/bin',
+  '/home/alex/images',
+  '/home/alex/public/alexrecker.com',
+  '/home/alex/public/alexandmarissa.com'
+]
+
+DIRECTORIES.each do |d|
+  describe file(d) do
+    it { should be_directory }
+    it { should be_owned_by('alex') }
   end
 end

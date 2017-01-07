@@ -1,4 +1,7 @@
 directories:
+  /home/alex/bin:
+    user: alex
+    group: alex
   /home/alex/public/alexrecker.com:
     user: alex
     group: alex
@@ -33,7 +36,6 @@ docker:
   reckerdogs:
     image: wordpress
     links: reckerdogs-db:mysql
-    volumes: /var/www/html/wp-content
     environment:
       VIRTUAL_HOST: reckerdogs.local
       WORDPRESS_DB_USER: reckerdogs
