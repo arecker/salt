@@ -1,4 +1,4 @@
-{% for container, info in salt['pillar.get']('docker', {}).iteritems() %}
+{% for container, info in salt['pillar.get']('containers', {}).iteritems() %}
 {% set build = info.get('build', None) %}
 {% set image = info['image'] %}
 docker-image-{{ container }}-{{ image }}:
