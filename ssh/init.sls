@@ -14,19 +14,10 @@ ssh-config:
     - require:
         - pkg: ssh-package
 
-ssh-motd:
-  file.managed:
-    - name: {{ ssh.motd }}
-    - source: salt://ssh/files/motd.txt
-    - user: root
-    - group: root
-    - mode: 644
-
 ssh-service:
   service.running:
     - name: {{ ssh.service }}
     - enable: True
     - watch:
         - pkg: ssh-package
-        - file: ssh-motd
         - file: ssh-config

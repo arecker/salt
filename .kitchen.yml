@@ -10,6 +10,7 @@ provisioner:
   state_top_from_file: true
   grains:
     vagrant: True
+    ssl: False
   pillars-from-files:
     me.sls: test/pillars/me.sls
   pillars:
