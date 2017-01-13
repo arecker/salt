@@ -15,7 +15,7 @@ docker-proxy-volume-html:
 
 docker-proxy-container:
   dockerng.running:
-    - name: proxy
+    - name: nginx-proxy
     - image: jwilder/nginx-proxy
     - port_bindings: 80:80,443:443
     - binds:
@@ -28,10 +28,11 @@ docker-proxy-container:
         - dockerng: docker-proxy-volume-vhosts
         - dockerng: docker-proxy-volume-html
 
-docker-letsencrypt-container:
+docker-ssl-container:
   dockerng.running:
-    - name: proxy-ssl
+    - name: nginx-ssl
     - image: jrcs/letsencrypt-nginx-proxy-companion
+    - volumes_from: nginx-proxy
     - binds:
         - proxy-certs:/etc/nginx/certs:rw
         - proxy-vhosts:/etc/nginx/vhost.d

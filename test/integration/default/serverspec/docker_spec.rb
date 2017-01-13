@@ -3,8 +3,8 @@ require 'serverspec'
 set :backend, :exec
 
 CONTAINERS = {
-  'proxy' => 'jwilder/nginx-proxy',
-  'proxy-ssl' => 'jrcs/letsencrypt-nginx-proxy-companion'
+  'nginx-proxy' => 'jwilder/nginx-proxy',
+  'nginx-ssl' => 'jrcs/letsencrypt-nginx-proxy-companion'
 }
 
 describe package('docker-engine') do
