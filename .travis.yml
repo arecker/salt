@@ -7,7 +7,7 @@ env:
     - machine_port=22
     - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
   matrix:
-  - SUITE=columbia
+  - SUITE=default
 
 rvm:
   - 2.1.7
