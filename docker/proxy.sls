@@ -30,7 +30,7 @@ docker-proxy-container:
 
 docker-letsencrypt-container:
   dockerng.running:
-    - name: letsencrypt
+    - name: proxy-ssl
     - image: jrcs/letsencrypt-nginx-proxy-companion
     - binds:
         - proxy-certs:/etc/nginx/certs:rw
