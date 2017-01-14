@@ -29,3 +29,11 @@ an ssh server, a firewall, and setup docker.
 
 Run =fab -H yourhost= to bootstrap the new server as a salt-minion.
 This must run as root on the remote host.
+
+* Testing
+
+To run the test suite
+
+1. Install gem and bundler
+2. Run =bundle install=
+3. Run =bundle exec test=
