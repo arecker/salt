@@ -5,4 +5,27 @@
 
 These are my salt scripts, man.
 
+* Configuring
+
+This is an example salt pillar.
+
+#+BEGIN_SRC yaml
+  user:
+    alex:
+      fullname: Alex Recker
+      groups: [ sudo ]
+      password: $1$q4F2BscZ$ZtjM20u.3dEVuZxKEJYy..  # openssl passwd -1
+      ssh:
+        present:
+          - ssh-rsa blah-blah-blah-real-ssh-key you@hostname
+        absent:
+          - ssh-rsa blah-bloop-blee-real-ssh-key guywhowasfired@hostname
+#+END_SRC
+
+Along with installing the specified users, these configs will install
+an ssh server, a firewall, and setup docker.
+
 * Bootstrapping
+
+Run =fab -H yourhost= to bootstrap the new server as a salt-minion.
+This must run as root on the remote host.
